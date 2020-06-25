@@ -10,7 +10,6 @@
     * Support for Response header viewing
     * Store requests and collections of requests in GIT
     * Multiple tabs for multiple requests
-    * 
 ### Nice to have (stretch goals)
     * Support POSTMAN environments (or something like it)
     * Import postman exported collections
