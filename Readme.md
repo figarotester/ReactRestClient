@@ -1,4 +1,4 @@
-# Project to provide a drop-in rplacement for Postman
+# Project to provide a drop-in replacement for Postman
 
 ## Goals
 ### Key features on Postman (must have)
