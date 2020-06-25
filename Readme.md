@@ -9,6 +9,7 @@
     * Support for Response Body viewing
     * Support for Response header viewing
     * Store requests and collections of requests in GIT
+      * Be able to select branches from the GIT repo
     * Multiple tabs for multiple requests
 ### Nice to have (stretch goals)
     * Support POSTMAN environments (or something like it)
