@@ -7,8 +7,6 @@ import SendButton from './send_button';
 import BodyButton from './body_button';
 import HeaderButton from './header_button';
 
-
-
 const StyledRequest = styled.h1`
   position: absolute;
   width: 90px;
@@ -20,7 +18,6 @@ const StyledRequest = styled.h1`
   font-weight: 500;
   font-size: 20px;
   line-height: 21px;
-
 `;
 
 const StyledMethod = styled.h1`
@@ -37,7 +34,7 @@ const StyledMethod = styled.h1`
   line-height: 16px;
 
   color: #000000;
-  `;
+`;
 
 const StyledUrl = styled.h1`
   position: absolute;
@@ -53,8 +50,7 @@ const StyledUrl = styled.h1`
   line-height: 16px;
 
   color: #000000;
-  `;
-
+`;
 
 const StyledRequestWrapper = styled.section`
   position: absolute;
@@ -62,7 +58,6 @@ const StyledRequestWrapper = styled.section`
   height: 21px;
   left: 56px;
   top: 16px;
-  
 `;
 
 const RequestFrame = styled.section`
@@ -74,10 +69,7 @@ const RequestFrame = styled.section`
   top: 51px;
 
   background: #EEEAEA;
-
-  `;
-
-
+`;
 
 const Request = () =>{
   return(
@@ -95,15 +87,12 @@ const Request = () =>{
         </StyledUrl>
         <UrlBar/>
         <SendButton/>
-
         <MethodSelector/>
         <BodyButton/>
         <HeaderButton/>
       </RequestFrame>
     </StyledRequestWrapper>
-
-  )
-};
-
+  );
+}
 
 export default Request

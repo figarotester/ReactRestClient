@@ -8,13 +8,12 @@ const StyledHeaderButton = styled.button`
   height: 23px;
   left: 350px;
   top: 104px;
-
 `;
 
 const HeaderButton = () =>{
   return(
     <StyledHeaderButton>Header</StyledHeaderButton>
-  )
-};
+  );
+}
 
 export default HeaderButton

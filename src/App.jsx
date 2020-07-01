@@ -4,7 +4,6 @@ import Request from './components/request';
 import Response from './components/response';
 import Collections from './components/collections';
 
-
 function App(){
   return(
     <div>
@@ -12,7 +11,7 @@ function App(){
     <Response/>
     <Collections/>
     </div>
-  )
+  );
 }
 
 export default App;

@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledMethodSelector = styled.div`
-position: absolute;
-width: 94px;
-height: 20px;
-left: 9px;
-top: 24px;
+  position: absolute;
+  width: 94px;
+  height: 20px;
+  left: 9px;
+  top: 24px;
 `;
 
 const MethodSelector = () => {
@@ -20,6 +20,6 @@ const MethodSelector = () => {
     </select>
     </StyledMethodSelector>
   );
-};
+}
 
 export default MethodSelector

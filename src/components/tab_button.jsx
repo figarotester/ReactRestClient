@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 
-
 const StyledTabButton = styled.button`
   position: absolute;
   width: 38px;
@@ -22,7 +21,7 @@ const StyledTabButton = styled.button`
 const TabButton = () =>{
   return(
     <StyledTabButton>+</StyledTabButton>
-  )
-};
+  );
+}
 
 export default TabButton

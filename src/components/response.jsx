@@ -4,9 +4,6 @@ import StatusBar from './status';
 import BodyButton from './body_button';
 import HeaderButton from './header_button';
 
-
-
-
 const StyledResponse = styled.h1`
   position: absolute;
   width: 90px;
@@ -22,7 +19,6 @@ const StyledResponse = styled.h1`
 `;
 
 const ResponseFrame = styled.section`
-
   position: absolute;
   width: 700px;
   height: 289px;
@@ -30,9 +26,7 @@ const ResponseFrame = styled.section`
   top: 75px;
 
   background: #EEEAEA;
-
-  `;
-
+`;
 
 const StyledResponseWrapper = styled.section`
   position: absolute;
@@ -40,7 +34,6 @@ const StyledResponseWrapper = styled.section`
   height: 21px;
   left: 56px;
   top: 347px;
-  
 `;
 
 const StyledStatus = styled.h1`
@@ -57,12 +50,7 @@ const StyledStatus = styled.h1`
   line-height: 16px;
 
   color: #000000;
-
-  `;
-
-
-
-
+`;
 
 const Response = () =>{
   return(
@@ -78,11 +66,8 @@ const Response = () =>{
         <BodyButton/>
         <HeaderButton/>
       </ResponseFrame>
-      
     </StyledResponseWrapper>
-
-  )
-};
-
+  );
+}
 
 export default Response

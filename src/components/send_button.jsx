@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-
 const StyledSendButton = styled.button`
   position: absolute;
   width: 120px;
@@ -15,7 +14,7 @@ const StyledSendButton = styled.button`
 const SendButton = () =>{
   return(
     <StyledSendButton>Send</StyledSendButton>
-  )
-};
+  );
+}
 
 export default SendButton

@@ -7,8 +7,8 @@ const StyledStatusBar = styled.div`
   height: 20px;
   left: 9px;
   top: 24px;
+
   background: white;
-  
 `;
 
 const StatusBar = () =>{
@@ -16,9 +16,7 @@ const StatusBar = () =>{
     <StyledStatusBar>
       (waiting for request)
     </StyledStatusBar>
-
-  )
-};
-
+  );
+}
 
 export default StatusBar
