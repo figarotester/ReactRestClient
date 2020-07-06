@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 import TabButton from './tab_button';
 import MethodSelector from './method_selector';
@@ -53,48 +53,57 @@ top: 23px;
 `;
 
 const StyledRequestWrapper = styled.section`
-position: absolute;
-width: 90px;
-height: 21px;
-left: 56px;
-top: 16px;
-`;
+  position: absolute;
+  width: 90px;
+  height: 21px;
+  left: 56px;
+  top: 16px;
+  `;
 
 const RequestFrame = styled.section`
-position: absolute;
-width: 700px;
-height: 289px;
-left: 56px;
-top: 51px;
-background: #EEEAEA;
-`;
+  position: absolute;
+  width: 700px;
+  height: 289px;
+  left: 56px;
+  top: 51px;
+  background: #EEEAEA;
+  `;
 
-class Request extends React.Component{
-constructor(props){
-super(props);
-this.state = {
-value: ''
-};
+class Request extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+    url: '',
+    response: ''
+  };
 
-this.handleChange = this.handleChange.bind(this);
-this.handleSubmit = this.handleSubmit.bind(this);
+  this.handleChange = this.handleChange.bind(this);
+  this.handleSubmit = this.handleSubmit.bind(this);
 }
 
-handleChange(event){
-this.setState({value: event.target.value});
+  handleChange = (event) => {
+  this.setState({url: event.target.value});
 }
 
-handleSubmit(event){
-event.preventDefault();
-axios.get(this.state.value)
-  .then(res => {
-    const data = res.data
-    console.log(data)
-    this.setState({data})
-  })
-  .catch((error) => {
-  console.log(error)
+handleSubmit = async (event) => {
+  event.preventDefault();
+
+  const postbody = {proxyurl: this.state.url, proxymethod: 'get'};
+  console.log(JSON.stringify(postbody));
+
+  fetch('proxy', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postbody)
+  }).then(response => response.json())
+  .then(json => {
+    console.log('parsed json', json)
+    this.setState({response: JSON.stringify(json, null, 2)});
   });
+
 }
 
 
@@ -116,15 +125,14 @@ render(){
       <form onSubmit={this.handleSubmit}>
         <input
           name="value"
-          value={this.state.value}
+          value={this.state.url}
           onChange={this.handleChange}
           type="text"
           style={{width: "330px"}}/>
-      <SendButton type="submit" value="Submit">
-        <h3>
-        Response: {this.state.value}
-        </h3>
-      </SendButton>
+      <SendButton type="submit" value="Submit"/>
+      <br/>
+      <br/>
+      <textarea rows={8} cols={80} value={this.state.response} onChange={this.handleChange}/>
     </form>
     </StyledUrlBar>
     <MethodSelector/>
@@ -132,7 +140,7 @@ render(){
     <HeaderButton/>
     </RequestFrame>
   </StyledRequestWrapper>
-  );
+    );
   }
-  }
+}
 export default Request
