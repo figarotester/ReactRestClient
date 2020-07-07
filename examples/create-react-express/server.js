@@ -15,10 +15,17 @@ app.use(bodyParser.json());
 app.post('/proxy', function (req, res) {
  
    if (req.body.proxymethod.toLowerCase() === 'get' ) {
-    console.log(`request for ${req.body.proxyurl} with method ${req.body.proxymethod}`);
     axios.get(req.body.proxyurl)
        .then(function (response) {
-        console.log(`-------------\n${JSON.stringify(response.data)}\n-----------------`);
+
+        // get response headers
+        for(const h in response.headers) {
+          const key = h;
+          const value = response.headers[h];
+          console.log(`Proxy response header -> ${key}: ${value}`);
+          res.setHeader(key, value);
+        }
+      // get response body
        res.send(response.data);
    })
    .catch(function (error) {
@@ -27,6 +34,22 @@ app.post('/proxy', function (req, res) {
  
    }
  })
+
+ // debug endpoint use to echo request as sent to this endpoint back as the response
+ // typically you can call this endpoint from postman as a test
+ // 
+ app.post('/echo', function (req, res) {
+  let responseBody = req.body;
+  responseBody["request-params"] = req.query;
+  res.body = responseBody;
+  for(const h in req.headers) {
+    const key = h;
+    const value = req.headers[h];
+    console.log(`request header -> ${key}: ${value}`);
+    res.setHeader(h, req.headers[h]);
+  }
+  res.send(responseBody);
+})
 
 // Send every request to the React app
 // Define any API routes before this runs
