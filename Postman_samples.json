@@ -1,0 +1,430 @@
+{
+	"info": {
+		"_postman_id": "645c71f7-a8b1-4455-a26f-b9766ac3c9ab",
+		"name": "Samples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "B_bulkops",
+			"item": [
+				{
+					"name": "0_2_4_6_List_mocks",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "https://dev.figaro-spc.fe-spectrum.net/core/figaro/data/user/test",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"figaro-spc",
+								"fe-spectrum",
+								"net"
+							],
+							"path": [
+								"core",
+								"figaro",
+								"data",
+								"user",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1_Bulk_upsert_mocks",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-chunk",
+								"value": "true",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"request\": {\n      \"method\": \"GET\",\n      \"path\": \"/api/pub/test1\"\n    },\n    \"response\": {\n      \"status\": 200,\n      \"body\": {\n        \"test\": \"test of contenttype\"\n      },\n      \"headers\": null,\n      \"contenttype\": \"application/json\",\n      \"responsetransform\": null\n    },\n    \"active\": true,\n    \"static\": false,\n    \"delay\": 0,\n    \"_id\": \"5e62885b42a3852b4bce7fc0\",\n    \"updateTime\": \"2020-07-06T22:38:52.597Z\",\n    \"username\": \"test\"\n  },\n  {\n    \"request\": {\n      \"method\": \"GET\",\n      \"path\": \"/api/pub/test2\"\n    },\n    \"response\": {\n      \"status\": 200,\n      \"body\": {\n        \"test\": \"test of contenttype\"\n      },\n      \"headers\": null,\n      \"contenttype\": \"application/json\",\n      \"responsetransform\": null\n    },\n    \"active\": true,\n    \"static\": false,\n    \"delay\": 0,\n    \"_id\": \"5e628d363759b42e93c090ed\",\n    \"updateTime\": \"2020-07-06T21:23:37.423Z\",\n    \"username\": \"test\"\n  },\n  {\n    \"request\": {\n      \"method\": \"POST\",\n      \"path\": \"/care/api/v1/logout\"\n    },\n    \"response\": {\n      \"status\": 200,\n      \"body\": {\n        \"statuscode\": \"E03001\",\n        \"message\": \"Mandatory token is missing\",\n        \"tid\": \"8363C7BCCA364AE6ABD17212632F1569\"\n      },\n      \"headers\": null,\n      \"contenttype\": \"application/json\",\n      \"responsetransform\": null\n    },\n    \"active\": true,\n    \"static\": false,\n    \"delay\": 0,\n    \"_id\": \"5efb566b18205ed7a22e8c6a\",\n    \"username\": \"test\",\n    \"__v\": 0,\n    \"updateTime\": \"2020-06-30T15:12:43.670Z\"\n  }\n]"
+						},
+						"url": {
+							"raw": "https://dev.figaro-spc.fe-spectrum.net/core/figaro/data/mocks",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"figaro-spc",
+								"fe-spectrum",
+								"net"
+							],
+							"path": [
+								"core",
+								"figaro",
+								"data",
+								"mocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3_Copy All Mocks for User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"srcusername\": \"test\",\r\n    \"targetusername\": \"test2\"\r\n}"
+						},
+						"url": {
+							"raw": "https://dev.figaro-spc.fe-spectrum.net/core/figaro/data/copyallmocksforuser",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"figaro-spc",
+								"fe-spectrum",
+								"net"
+							],
+							"path": [
+								"core",
+								"figaro",
+								"data",
+								"copyallmocksforuser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "5_DeleteMocksForUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n   \"username\": \"test2\"\n}"
+						},
+						"url": {
+							"raw": "https://dev.figaro-spc.fe-spectrum.net/core/figaro/data/mocks",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"figaro-spc",
+								"fe-spectrum",
+								"net"
+							],
+							"path": [
+								"core",
+								"figaro",
+								"data",
+								"mocks"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "A_serialTests",
+			"item": [
+				{
+					"name": "0_healthcheck",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "charternet",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Chart3rn3t",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"type": "any"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://dev.figaro-spc.fe-spectrum.net/core/healthcheck",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"figaro-spc",
+								"fe-spectrum",
+								"net"
+							],
+							"path": [
+								"core",
+								"healthcheck"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1_Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "61812ebe-5638-4a72-a685-e648aa609cb2",
+								"exec": [
+									"var response=JSON.parse(responseBody);",
+									"",
+									"var sessid = response.LCharterSession.SessionId;",
+									"postman.setEnvironmentVariable('sessid', sessid);",
+									"",
+									"var encsessid = response.LCharterSession.EncryptedSessionId;",
+									"postman.setEnvironmentVariable('encsessid', encsessid);",
+									"",
+									"var pkey = response.LCharterSession.PKey;",
+									"postman.setEnvironmentVariable('pkey', pkey);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "xc-portal-source-client",
+								"value": " MySpectrumApp@8.4.0",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"KeepMeIn\": true,\n  \"Username\": \"billpay0026?recordsession=true&uriexactmatch=false\",\n  \"TargetUrl\": null,\n  \"Password\": \"Testing01\",\n  \"CaptchaResponse\": null,\n  \"AttemptNumber\": 1\n}"
+						},
+						"url": {
+							"raw": "https://dev.figaro-spc.fe-spectrum.net/api/pub/authn/v1/authenticate",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"figaro-spc",
+								"fe-spectrum",
+								"net"
+							],
+							"path": [
+								"api",
+								"pub",
+								"authn",
+								"v1",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2_initiate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bdd70d72-0623-441f-9b1a-7cbd2c4e8cf5",
+								"exec": [
+									"pm.response.headers.all()",
+									"    .filter(headerObj => { return (headerObj.key == \"Set-Cookie\") || (headerObj.key == \"set-cookie\") ;})",
+									"    .forEach(headerObj => {",
+									"        let cookie = headerObj.value;",
+									"        let cn = cookie.substring(0, cookie.indexOf(\"=\"));",
+									"        let cv = cookie.substring(cookie.indexOf(\"=\")+1, cookie.indexOf(\";\"));",
+									"        //console.log(\"name:\" + cn + \"; value:\" + cv);",
+									"        switch (cn) {",
+									"            case 'chtrsessionid': {",
+									"              postman.setEnvironmentVariable('token', cv);",
+									"              console.log(\"name:\" + cn + \"; value:\" + cv);",
+									"            }",
+									"            break;",
+									"            case 'chtrsessionid_encrypted': {",
+									"              postman.setEnvironmentVariable('chtrsessionid_encrypted', cv);",
+									"              console.log(\"name:\" + cn + \"; value:\" + cv);",
+									"            }",
+									"            break;",
+									"            case 'XSRF-TOKEN': {",
+									"              postman.setEnvironmentVariable('XSRF-TOKEN', cv);",
+									"              console.log(\"name:\" + cn + \"; value:\" + cv);",
+									"            }",
+									"            break;",
+									"            case '_t': {",
+									"              postman.setEnvironmentVariable('_t', cv);",
+									"              console.log(\"name:\" + cn + \"; value:\" + cv);",
+									"            }",
+									"            break;",
+									"        }",
+									"    });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Chart3rn3t",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "charternet",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "authcookie=Spec2Jars!",
+								"type": "text"
+							},
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"EncryptedSessionId\": \"*\",\n  \"ClientIp\": \"127.0.0.1\",\n  \"TargetURL\": \"null\",\n  \"SessionId\": \"<replace with 'LCharterSession.SessionId' value from the 1_Authenticate call response>\",\n  \"PKey\": \"*\",\n  \"KeepMeIn\": false\n  }"
+						},
+						"url": {
+							"raw": "https://dev.figaro-spc.fe-spectrum.net/api/pub/session/v2/initiate",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"figaro-spc",
+								"fe-spectrum",
+								"net"
+							],
+							"path": [
+								"api",
+								"pub",
+								"session",
+								"v2",
+								"initiate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3_Accounts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-charter-session",
+								"value": "<replace with the chtrsessionid cookie value from the 2_initiate call>",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://dev.figaro-spc.fe-spectrum.net/api/pub/account/v1/accounts",
+							"protocol": "https",
+							"host": [
+								"dev",
+								"figaro-spc",
+								"fe-spectrum",
+								"net"
+							],
+							"path": [
+								"api",
+								"pub",
+								"account",
+								"v1",
+								"accounts"
+							]
+						},
+						"description": "https://oas-ui.figaro.spectrumtoolbox.com/#/oas/spc-account"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
