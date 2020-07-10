@@ -2,7 +2,7 @@
 
 ## SAMPLE GET #1
 * METHOD: GET 
-* URL: https://dev.figaro-spc.fe-spectrum.net/core/healthcheck
+* URL: https://test.figaro-spc.fe-spectrum.net/core/healthcheck
 * REQUEST HEADERS:
     Accept: application/json
     Content-Type: application/json
@@ -23,7 +23,7 @@
 
 ## SAMPLE POST #1
 * METHOD: POST 
-* URL: https://dev.figaro-spc.fe-spectrum.net/api/pub/authn/v1/authenticate
+* URL: https://test.figaro-spc.fe-spectrum.net/api/pub/authn/v1/authenticate
 * REQUEST HEADERS:
     Accept:application/json
     Content-Type:application/json
