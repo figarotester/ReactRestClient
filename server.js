@@ -44,7 +44,6 @@ app.post('/proxy', function (req, res) {
     "PKey": "*",
     "KeepMeIn": false
   }
-  
 
   if(req.body.proxymethod.toLowerCase() === 'post'){
     console.log(`request for ${req.body.proxyurl} with method ${req.body.proxymethod}`);
@@ -106,7 +105,6 @@ app.post('/proxy', function (req, res) {
       });
   }
 
-
  })
 
  app.post('/echo', function (req, res) {
@@ -127,8 +125,6 @@ app.post('/proxy', function (req, res) {
 app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
-
-
 
 app.listen(PORT, function() {
   console.log(`🌎 ==> API server now on port ${PORT}!`);

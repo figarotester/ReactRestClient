@@ -4,7 +4,6 @@ import TabButton from './tab_button';
 import SendButton from './send_button';
 const axios = require('axios');
 
-
 const CollectionsFrame = styled.section`
   position: absolute;
   width: 400px;
@@ -61,6 +60,7 @@ const StyledRequest = styled.h1`
   font-size: 20px;
   line-height: 21px;
 `;
+
 const StyledMethod = styled.h1`
   position: absolute;
   width: 49px;
@@ -74,6 +74,7 @@ const StyledMethod = styled.h1`
   line-height: 16px;
   color: #000000;
 `;
+
 const StyledUrl = styled.h1`
   position: absolute;
   width: 48px;
@@ -89,9 +90,9 @@ const StyledUrl = styled.h1`
 `;
 
 const StyledUrlBar = styled.div`
-position: absolute;
-left: 110px;
-top: 23px;
+  position: absolute;
+  left: 110px;
+  top: 23px;
 `;
 
 const StyledRequestWrapper = styled.section`
@@ -100,7 +101,7 @@ const StyledRequestWrapper = styled.section`
   height: 21px;
   left: 56px;
   top: 16px;
-  `;
+`;
 
 const RequestFrame = styled.section`
   position: absolute;
@@ -109,7 +110,7 @@ const RequestFrame = styled.section`
   left: 56px;
   top: 51px;
   background: #EEEAEA;
-  `;
+`;
 
 const StyledResponse = styled.h1`
   position: absolute;
@@ -167,7 +168,6 @@ const StyledResponseText = styled.section`
   top: 140px;
 
   background: white
-
 ;`
 
 const StyledRequestText = styled.section`
@@ -178,7 +178,6 @@ const StyledRequestText = styled.section`
   top: 140px;
 
   background: white
-
 ;`
 
 const StyledHeaderButton = styled.button`
@@ -224,8 +223,8 @@ class Main extends Component {
   this.handleRequestDisplay = this.handleRequestDisplay.bind(this);
   this.handleResponseDisplay = this.handleResponseDisplay.bind(this);
 
-
 };
+
   handleRequestDisplay = (event) =>{
     this.setState({requestDisplay: event.target.value});
   }
@@ -240,7 +239,7 @@ class Main extends Component {
 
   handleChange = (event) => {
   this.setState({url: event.target.value});
-}
+  }
 
   handleSubmit = async (event) => {
     event.preventDefault();
@@ -264,12 +263,10 @@ class Main extends Component {
       "PKey": "*",
       "KeepMeIn": false
   }
-    
 
-   /* const body = {
+    const body = {
       ID: 123
-    }*/
-
+    }
 
     axios(
       {
@@ -278,8 +275,8 @@ class Main extends Component {
         data: postbody,
         headers: requestHeaders,
         body: requestBody,
-        credentials: 'include'
-        //params: body
+        credentials: 'include',
+        params: body
       }
     ).then(response => {
       console.log('parsed json', response.data);
@@ -296,9 +293,7 @@ class Main extends Component {
     }).catch(error => {
       console.log(error)
     })
-
   }
-
 
 render(){
   return(
@@ -341,9 +336,9 @@ render(){
     </StyledBodyButton>
     <StyledHeaderButton onClick={this.handleRequestDisplay} value={this.state.requestHeaders}>
       Header
-      </StyledHeaderButton>
+    </StyledHeaderButton>
     <StyledRequestText>
-    <textarea rows={5} cols={78} value={this.state.requestDisplay} onChange={this.handleRequestDisplay}/>
+      <textarea rows={5} cols={78} value={this.state.requestDisplay} onChange={this.handleRequestDisplay}/>
     </StyledRequestText>
     </RequestFrame>
     <StyledResponseWrapper>
@@ -355,7 +350,7 @@ render(){
           Status
         </StyledStatus>
         <StyledStatusBar>
-        <textarea rows={1} cols={16} value={this.state.status} onChange={this.handleChange}/>
+          <textarea rows={1} cols={16} value={this.state.status} onChange={this.handleChange}/>
         </StyledStatusBar>
         <StyledBodyButton onClick={this.handleResponseDisplay} value={this.state.responseBody}>
           Body
@@ -367,7 +362,6 @@ render(){
           <textarea rows={5} cols={78} value={this.state.responseDisplay} onChange={this.handleResponseDisplay}/>
         </StyledResponseText>
       </ResponseFrame>
-
     </StyledResponseWrapper>
     <StyledCollectionsWrapper>
       <StyledCollections>
@@ -376,11 +370,7 @@ render(){
       <CollectionsFrame>
       </CollectionsFrame>
     </StyledCollectionsWrapper>
-      
-    
   </StyledRequestWrapper>
-
-  
   
     );
   }
