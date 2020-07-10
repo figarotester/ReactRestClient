@@ -244,24 +244,29 @@ class Main extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    const postbody = {proxyurl: this.state.url, proxymethod: this.state.value};
+    const postbody = {
+      proxyurl: this.state.url, 
+      proxyrequestheaders: this.state.requestHeaders, 
+      proxyrequestbody: this.state.requestBody,
+      proxymethod: this.state.value};
+      
     console.log(JSON.stringify(postbody));
 
     const requestHeaders = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'x-charter-session': 'aff336e3-d78a-4707-af81-b43f9087f7a1',
-      'Cookie': 'JSESSIONID=92C6E421811C241112B4F744C06C0362'
+      'xc-portal-source-client': 'MySpectrumApp@8.4.0',
+      'Authorization' : 'Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0'
     }
 
     const requestBody = 
     {
-      "EncryptedSessionId": "*",
-      "ClientIp": "127.0.0.1",
-      "TargetURL": "null",
-      "SessionId": "Awzvis2CGtFstNokTfjj-Cj68orgcsG_sF9bpQ8uZVI@IKY1TmflK9Ekv_KrBe5ZaA@IDxIlPR78lJnX4O8MfS_B0Y1T6o67pti_PAZA59U0C8hQykIbFZWQteY7mRMKvMnPsnMA5ZZmxfCLxstbMgrPqtkAO-olmkdT1IUUpni7HRvYn2WJsHMrXHxhBXCt16ejnULqEsZKkIkT5sS1--17lujALOxcuxlbSgPDJR_eringBb-KB5XvPX28139mPGK1IZ7CSf4XpaehsxyBOsWToX3Zj3EVjYT9Q0pPVbVtE1ySy6u-tCdz6U2QMgEPIJpGbYYSmQA35ZID1UnfxSv6uI9b-hcnUSylR3cwv4dbfkZTZrCxrSshhbUZ1_nbc-5wfpNzo1YejlxbSeevnjYDHtEDd1OqJdhbm_xY6KJsOE",
-      "PKey": "*",
-      "KeepMeIn": false
+      "KeepMeIn": true,
+    "Username": "billpay0026?recordsession=true&uriexactmatch=false",
+    "TargetUrl": null,
+    "Password": "Testing01",
+    "CaptchaResponse": null,
+    "AttemptNumber": 1
   }
 
     const body = {

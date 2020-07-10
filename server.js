@@ -37,17 +37,19 @@ app.post('/proxy', function (req, res) {
 
   const requestBody = {
 
-    "EncryptedSessionId": "*",
-    "ClientIp": "127.0.0.1",
-    "TargetURL": "null",
-    "SessionId": "Awzvis2CGtFstNokTfjj-Cj68orgcsG_sF9bpQ8uZVI@IKY1TmflK9Ekv_KrBe5ZaA@IDxIlPR78lJnX4O8MfS_B0Y1T6o67pti_PAZA59U0C8hQykIbFZWQteY7mRMKvMnPsnMA5ZZmxfCLxstbMgrPqtkAO-olmkdT1IUUpni7HRvYn2WJsHMrXHxhBXCt16ejnULqEsZKkIkT5sS1--17lujALOxcuxlbSgPDJR_eringBb-KB5XvPX28139mPGK1IZ7CSf4XpaehsxyBOsWToX3Zj3EVjYT9Q0pPVbVtE1ySy6u-tCdz6U2QMgEPIJpGbYYSmQA35ZID1UnfxSv6uI9b-hcnUSylR3cwv4dbfkZTZrCxrSshhbUZ1_nbc-5wfpNzo1YejlxbSeevnjYDHtEDd1OqJdhbm_xY6KJsOE",
-    "PKey": "*",
-    "KeepMeIn": false
+    "KeepMeIn": true,
+    "Username": "billpay0026?recordsession=true&uriexactmatch=false",
+    "TargetUrl": null,
+    "Password": "Testing01",
+    "CaptchaResponse": null,
+    "AttemptNumber": 1
   }
 
   if(req.body.proxymethod.toLowerCase() === 'post'){
     console.log(`request for ${req.body.proxyurl} with method ${req.body.proxymethod}`);
-    axios.post(req.body.proxyurl, requestBody, {withCredentials: true})
+    console.log(`request for ${req.body.proxyrequestbody}`);
+    console.log(`request for ${req.body.proxyrequestheaders}`);
+    axios.post(req.body.proxyurl, req.body.proxyrequestbody, req.body.proxyrequestheaders)
       .then(function (response) {
       console.log(`-------------\n${JSON.stringify(response.data)}\n-----------------`);
 
@@ -67,7 +69,7 @@ app.post('/proxy', function (req, res) {
 
   if(req.body.proxymethod.toLowerCase() === 'put'){
     console.log(`request for ${req.body.proxyurl} with method ${req.body.proxymethod}`);
-    axios.put(req.body.proxyurl, requestBody, {withCredentials: true})
+    axios.put(req.body.proxyurl, req.body.proxyrequestbody)
       .then(function (response) {
       console.log(`-------------\n${JSON.stringify(response.data)}\n-----------------`);
 
