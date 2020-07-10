@@ -1,13 +1,12 @@
 import React from 'react';
 import './App.css';
-import Request from './components/request';
-import Collections from './components/collections';
+import Main from './components/main';
+//import Collections from './components/collections';
 
 function App(){
   return(
     <div>
-    <Request/>
-    <Collections/>
+    <Main/>
     </div>
   );
 }
