@@ -204,97 +204,103 @@ const StyledBodyButton = styled.button`
   top: 104px;
 `;
 
+  //TODO: this should come from the UI
+  const requestHeaders = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'xc-portal-source-client': 'MySpectrumApp@8.4.0',
+    'Authorization' : 'Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0'
+  }
+
+  //TODO: this should come from the UI
+  const requestBody = 
+  {
+    "KeepMeIn": true,
+  "Username": "billpay0026?recordsession=true&uriexactmatch=false",
+  "TargetUrl": null,
+  "Password": "Testing01",
+  "CaptchaResponse": null,
+  "AttemptNumber": 1
+}
+
 class Main extends Component {
   constructor(props){
     super(props);
-    this.state = {
-    url: '',
-    requestHeaders: '',
-    requestBody:'',
-    responseBody:'',
-    responseHeaders: '',
-    status: '',
-    value: ''
-  };
-
-  this.handleChange = this.handleChange.bind(this);
-  this.handleSubmit = this.handleSubmit.bind(this);
-  this.handleSelect = this.handleSelect.bind(this);
-  this.handleRequestDisplay = this.handleRequestDisplay.bind(this);
-  this.handleResponseDisplay = this.handleResponseDisplay.bind(this);
-
+    
+  
+  // State vars
+  this.state = {
+  url: '',                        //proxyURL
+  requestHeaders: '', //proxyRequestHeaders
+  requestBody: '',        //proxyRequestBody
+  responseBody:'',                //ProxyResponseBody
+  responseHeaders: '',            //ProxyResponseHeaders
+  responseStatus: '',             //ProxyResponseStatus
+  value: ''                       //drop-down
 };
 
-  handleRequestDisplay = (event) =>{
-    this.setState({requestDisplay: event.target.value});
-  }
+this.handleSubmit = this.handleSubmit.bind(this);
+this.handleChange = this.handleChange.bind(this);
 
-  handleResponseDisplay = (event) =>{
+/** 
+this.handleSelect = this.handleSelect.bind(this);
+this.handleRequestDisplay = this.handleRequestDisplay.bind(this);
+this.handleResponseDisplay = this.handleResponseDisplay.bind(this);
+**/
+
+console.log(`IN CTOR: ${this.state.requestBody}`);
+
+
+}; //end constructor
+  
+handleRequestDisplay = (event) => {
+    this.setState({requestDisplay: event.target.value});}
+
+handleResponseDisplay = (event) =>{
     this.setState({responseDisplay: event.target.value});
   }
 
-  handleSelect = (event) =>{
+handleSelect = (event) =>{
     this.setState({value: event.target.value});
   }
 
-  handleChange = (event) => {
+handleChange = (event) => {
   this.setState({url: event.target.value});
+  this.setState({requestHeaders: requestHeaders, requestBody: requestBody});
   }
 
-  handleSubmit = async (event) => {
+handleSubmit = async (event) => {
     event.preventDefault();
-
-    const postbody = {
+    console.log(`UI: proxybody: ${JSON.stringify(this.state.requestBody)}`); 
+  
+  // The inner object which will be user by the server
+  const proxybody = {
       proxyurl: this.state.url, 
       proxyrequestheaders: this.state.requestHeaders, 
       proxyrequestbody: this.state.requestBody,
-      proxymethod: this.state.value};
-      
-    console.log(JSON.stringify(postbody));
-
-    const requestHeaders = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'xc-portal-source-client': 'MySpectrumApp@8.4.0',
-      'Authorization' : 'Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0'
-    }
-
-    const requestBody = 
-    {
-      "KeepMeIn": true,
-    "Username": "billpay0026?recordsession=true&uriexactmatch=false",
-    "TargetUrl": null,
-    "Password": "Testing01",
-    "CaptchaResponse": null,
-    "AttemptNumber": 1
+      proxymethod: this.state.value
   }
-
-    const body = {
-      ID: 123
-    }
-
-    axios(
+  
+   console.log(`UI: body: ${JSON.stringify(proxybody)}`); 
+   axios(
       {
-        method: 'post',
-        url: '/proxy',
-        data: postbody,
-        headers: requestHeaders,
-        body: requestBody,
-        credentials: 'include',
-        params: body
+        method: 'post',             // this will always be POST (wrapper call to the local node server)
+        url: '/proxy',              // this will always be /proxy (local node/express endpoint)
+        data: proxybody,           // this object will be unwrapped in the server.
+        headers: null              // we dont need to set headers for the local /proxy endpoint.
       }
     ).then(response => {
       console.log('parsed json', response.data);
-      console.log('Status:', response.status, response.statusText);
+      console.log('responseStatus:', response.status, response.statusText); 
       console.log('Headers:', response.headers);
-      console.log(response.config)
+      console.log(response.config);
+      
       this.setState({
-        requestHeaders: JSON.stringify(requestHeaders, null, 2),
         responseHeaders: JSON.stringify(response.headers, null, 2),
-        requestBody: JSON.stringify(requestBody, null, 2),
         responseBody: JSON.stringify(response.data, null, 2),
-        status: JSON.stringify(response.status, null, 2),
+        responseStatus: JSON.stringify(response.status, null, 2),
       })
+
     }).catch(error => {
       console.log(error)
     })
@@ -355,7 +361,7 @@ render(){
           Status
         </StyledStatus>
         <StyledStatusBar>
-          <textarea rows={1} cols={16} value={this.state.status} onChange={this.handleChange}/>
+          <textarea rows={1} cols={16} value={this.state.responseStatus} onChange={this.handleChange}/>
         </StyledStatusBar>
         <StyledBodyButton onClick={this.handleResponseDisplay} value={this.state.responseBody}>
           Body
