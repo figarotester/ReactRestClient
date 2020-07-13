@@ -6,7 +6,7 @@ const StyledTabButton = styled.button`
   width: 38px;
   height: 25px;
   left: 360px;
-  top: 16px;
+  top: -10px;
   background: transparent;
   
   border: 2px solid black;

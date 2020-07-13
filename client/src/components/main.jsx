@@ -52,8 +52,8 @@ const StyledRequest = styled.h1`
   position: absolute;
   width: 90px;
   height: 21px;
-  left: 56px;
-  top: 16px;
+  left: -30px;
+  top: -10px;
   font-family: Roboto;
   font-style: italic;
   font-weight: 500;
@@ -66,7 +66,7 @@ const StyledMethod = styled.h1`
   width: 49px;
   height: 18px;
   left: 9px;
-  top: calc(50% - 18px/2 - 130.5px);
+  top: calc(50% - 18px/2 - 170.5px);
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -80,7 +80,7 @@ const StyledUrl = styled.h1`
   width: 48px;
   height: 18px;
   left: 109px;
-  top: calc(50% - 18px/2 - 130.5px);
+  top: calc(50% - 18px/2 - 170.5px);
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
@@ -95,6 +95,50 @@ const StyledUrlBar = styled.div`
   top: 23px;
 `;
 
+const StyledRequestBodyLabel = styled.h1`
+  position: absolute;
+  left: 320px;
+  top: 60px;
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 16px;
+  color: #000000;
+`;
+
+const StyledResponseBodyLabel = styled.h1`
+  position: absolute;
+  left: 320px;
+  top: 45px;
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 16px;
+  color: #000000;
+`;
+
+const StyledRequestHeaderLabel = styled.h1`
+  position: absolute;
+  left: 320px;
+  top: 215px;
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 16px;
+  color: #000000;
+`;
+
+const StyledResponseHeaderLabel = styled.h1`
+  position: absolute;
+  left: 320px;
+  top: 205px;
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 16px;
+  color: #000000;
+`;
+
 const StyledRequestWrapper = styled.section`
   position: absolute;
   width: 90px;
@@ -105,10 +149,10 @@ const StyledRequestWrapper = styled.section`
 
 const RequestFrame = styled.section`
   position: absolute;
-  width: 700px;
-  height: 289px;
-  left: 56px;
-  top: 51px;
+  width: 730px;
+  height: 370px;
+  left: -30px;
+  top: 20px;
   background: #EEEAEA;
 `;
 
@@ -116,8 +160,8 @@ const StyledResponse = styled.h1`
   position: absolute;
   width: 90px;
   height: 21px;
-  left: 56px;
-  top: 40px;
+  left: -30px;
+  top: 70px;
 
   font-family: Roboto;
   font-style: italic;
@@ -128,10 +172,10 @@ const StyledResponse = styled.h1`
 
 const ResponseFrame = styled.section`
   position: absolute;
-  width: 700px;
-  height: 289px;
-  left: 56px;
-  top: 75px;
+  width: 730px;
+  height: 360px;
+  left: -30px;
+  top: 100px;
 
   background: #EEEAEA;
 `;
@@ -149,7 +193,7 @@ const StyledStatus = styled.h1`
   width: 49px;
   height: 18px;
   left: 9px;
-  top: calc(50% - 22px/2 - 130.5px);
+  top: calc(50% - 22px/2 - 165.5px);
 
   font-family: Roboto;
   font-style: normal;
@@ -160,33 +204,46 @@ const StyledStatus = styled.h1`
   color: #000000;
 `;
 
-const StyledResponseText = styled.section`
+const StyledResponseBody = styled.section`
   position: absolute;
   width: 640px;
   height: 130px;
   left: 30px;
-  top: 140px;
+  top: 70px;
 
   background: white
 ;`
 
-const StyledRequestText = styled.section`
+const StyledResponseHeader = styled.section`
   position: absolute;
   width: 640px;
   height: 130px;
   left: 30px;
-  top: 140px;
+  top: 225px;
 
   background: white
 ;`
 
-const StyledHeaderButton = styled.button`
+const StyledRequestBody = styled.section`
   position: absolute;
-  width: 90px;
-  height: 23px;
-  left: 350px;
-  top: 104px;
-`;
+  width: 640px;
+  height: 130px;
+  left: 30px;
+  top: 80px;
+
+  background: white
+;`
+
+const StyledRequestHeader = styled.section`
+  position: absolute;
+  width: 640px;
+  height: 130px;
+  left: 30px;
+  top: 235px;
+
+  background: white
+;`
+
 
 const StyledMethodSelector = styled.div`
   position: absolute;
@@ -196,16 +253,8 @@ const StyledMethodSelector = styled.div`
   top: 24px;
 `;
 
-const StyledBodyButton = styled.button`
-  position: absolute;
-  width: 90px;
-  height: 23px;
-  left: 110px;
-  top: 104px;
-`;
-
   //TODO: this should come from the UI
-  const requestHeaders = {
+  /*const requestHeaders = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'xc-portal-source-client': 'MySpectrumApp@8.4.0',
@@ -221,7 +270,7 @@ const StyledBodyButton = styled.button`
   "Password": "Testing01",
   "CaptchaResponse": null,
   "AttemptNumber": 1
-}
+}*/
 
 class Main extends Component {
   constructor(props){
@@ -231,8 +280,8 @@ class Main extends Component {
   // State vars
   this.state = {
   url: '',                        //proxyURL
-  requestHeaders: '', //proxyRequestHeaders
-  requestBody: '',        //proxyRequestBody
+  requestHeaders: '',             //proxyRequestHeaders
+  requestBody: '',                //proxyRequestBody
   responseBody:'',                //ProxyResponseBody
   responseHeaders: '',            //ProxyResponseHeaders
   responseStatus: '',             //ProxyResponseStatus
@@ -241,6 +290,10 @@ class Main extends Component {
 
 this.handleSubmit = this.handleSubmit.bind(this);
 this.handleChange = this.handleChange.bind(this);
+this.handleRequestBody = this.handleRequestBody.bind(this);
+this.handleRequestHeaders = this.handleRequestHeaders.bind(this);
+
+
 
 /** 
 this.handleSelect = this.handleSelect.bind(this);
@@ -253,12 +306,13 @@ console.log(`IN CTOR: ${this.state.requestBody}`);
 
 }; //end constructor
   
-handleRequestDisplay = (event) => {
-    this.setState({requestDisplay: event.target.value});}
+handleRequestBody = (event) =>{
+  this.setState({requestBody: event.target.value});
+}
 
-handleResponseDisplay = (event) =>{
-    this.setState({responseDisplay: event.target.value});
-  }
+handleRequestHeaders = (event) =>{
+  this.setState({requestHeaders: event.target.value});
+}
 
 handleSelect = (event) =>{
     this.setState({value: event.target.value});
@@ -266,7 +320,7 @@ handleSelect = (event) =>{
 
 handleChange = (event) => {
   this.setState({url: event.target.value});
-  this.setState({requestHeaders: requestHeaders, requestBody: requestBody});
+  //this.setState({requestHeaders: event.target.value, requestBody: event.target.value});
   }
 
 handleSubmit = async (event) => {
@@ -342,15 +396,22 @@ render(){
         </select>
       </form>
     </StyledMethodSelector>
-    <StyledBodyButton onClick={this.handleRequestDisplay} value={this.state.requestBody}>
+    <StyledRequestBodyLabel>
       Body
-    </StyledBodyButton>
-    <StyledHeaderButton onClick={this.handleRequestDisplay} value={this.state.requestHeaders}>
+    </StyledRequestBodyLabel>
+    <StyledRequestBody>
+      <form onSubmit={this.handleSubmit}>
+        <textarea rows={5} cols={78} value={this.state.requestBody} onChange={this.handleRequestBody}/>
+      </form>
+    </StyledRequestBody>
+    <StyledRequestHeaderLabel>
       Header
-    </StyledHeaderButton>
-    <StyledRequestText>
-      <textarea rows={5} cols={78} value={this.state.requestDisplay} onChange={this.handleRequestDisplay}/>
-    </StyledRequestText>
+    </StyledRequestHeaderLabel>
+    <StyledRequestHeader>
+      <form onSubmit={this.handleSubmit}>
+        <textarea rows={5} cols={78} value={this.state.requestHeaders} onChange={this.handleRequestHeaders}/>
+      </form>
+    </StyledRequestHeader>
     </RequestFrame>
     <StyledResponseWrapper>
       <StyledResponse>
@@ -363,15 +424,18 @@ render(){
         <StyledStatusBar>
           <textarea rows={1} cols={16} value={this.state.responseStatus} onChange={this.handleChange}/>
         </StyledStatusBar>
-        <StyledBodyButton onClick={this.handleResponseDisplay} value={this.state.responseBody}>
+        <StyledResponseBodyLabel>
           Body
-        </StyledBodyButton>
-        <StyledHeaderButton onClick={this.handleResponseDisplay} value={this.state.responseHeaders}>
-        Header
-      </StyledHeaderButton >
-        <StyledResponseText>
-          <textarea rows={5} cols={78} value={this.state.responseDisplay} onChange={this.handleResponseDisplay}/>
-        </StyledResponseText>
+        </StyledResponseBodyLabel>
+        <StyledResponseBody>
+          <textarea rows={5} cols={78} value={this.state.responseBody} onChange={this.handleChange}/>
+        </StyledResponseBody>
+        <StyledResponseHeaderLabel>
+          Header
+        </StyledResponseHeaderLabel>
+        <StyledResponseHeader>
+        <textarea rows={5} cols={78} value={this.state.responseHeaders} onChange={this.handleChange}/>
+        </StyledResponseHeader>
       </ResponseFrame>
     </StyledResponseWrapper>
     <StyledCollectionsWrapper>
