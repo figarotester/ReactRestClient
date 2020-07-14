@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import TabButton from './tab_button';
 import SendButton from './send_button';
+import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
+import '../react-tabs.css';
 const axios = require('axios');
 
 const CollectionsFrame = styled.section`
@@ -212,7 +214,7 @@ const StyledResponseBody = styled.section`
   top: 70px;
 
   background: white
-;`
+`;
 
 const StyledResponseHeader = styled.section`
   position: absolute;
@@ -222,7 +224,7 @@ const StyledResponseHeader = styled.section`
   top: 225px;
 
   background: white
-;`
+`;
 
 const StyledRequestBody = styled.section`
   position: absolute;
@@ -232,7 +234,7 @@ const StyledRequestBody = styled.section`
   top: 80px;
 
   background: white
-;`
+`;
 
 const StyledRequestHeader = styled.section`
   position: absolute;
@@ -242,8 +244,7 @@ const StyledRequestHeader = styled.section`
   top: 235px;
 
   background: white
-;`
-
+`;
 
 const StyledMethodSelector = styled.div`
   position: absolute;
@@ -252,6 +253,14 @@ const StyledMethodSelector = styled.div`
   left: 9px;
   top: 24px;
 `;
+
+const StyledTabs = styled.section`
+  position: absolute;
+  width: 38px;
+  height: 25px;
+  left: 50px;
+  top: -15px;
+  `;
 
   //TODO: this should come from the UI
   /*const requestHeaders = {
@@ -285,7 +294,9 @@ class Main extends Component {
   responseBody:'',                //ProxyResponseBody
   responseHeaders: '',            //ProxyResponseHeaders
   responseStatus: '',             //ProxyResponseStatus
-  value: ''                       //drop-down
+  value: '',                      //drop-down
+  tabIndex: 0
+
 };
 
 this.handleSubmit = this.handleSubmit.bind(this);
@@ -356,6 +367,14 @@ render(){
     <StyledRequest>
       Request
     </StyledRequest>
+    <StyledTabs>
+      <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({tabIndex})}>
+        <TabList>
+          <Tab>{this.state.url}</Tab>
+        </TabList>
+        <TabPanel></TabPanel>
+      </Tabs>
+    </StyledTabs>
     <TabButton/>
     <RequestFrame>
     <StyledMethod>
@@ -394,7 +413,7 @@ render(){
         style={{width: "645px", height: "130px"}}/>
     </StyledRequestBody>
     <StyledRequestHeaderLabel>
-      Header
+      Headers
     </StyledRequestHeaderLabel>
     <StyledRequestHeader>
       <input 
@@ -423,7 +442,7 @@ render(){
           <textarea rows={5} cols={78} value={this.state.responseBody} onChange={this.handleChange}/>
         </StyledResponseBody>
         <StyledResponseHeaderLabel>
-          Header
+          Headers
         </StyledResponseHeaderLabel>
         <StyledResponseHeader>
         <textarea rows={5} cols={78} value={this.state.responseHeaders} onChange={this.handleChange}/>
