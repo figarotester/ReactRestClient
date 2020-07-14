@@ -268,7 +268,7 @@ const StyledTabs = styled.section`
     'Content-Type': 'application/json',
     'xc-portal-source-client': 'MySpectrumApp@8.4.0',
     'Authorization' : 'Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0'
-  }
+  }*/
 
   //TODO: this should come from the UI
   const requestBody = 
@@ -279,7 +279,7 @@ const StyledTabs = styled.section`
   "Password": "Testing01",
   "CaptchaResponse": null,
   "AttemptNumber": 1
-}*/
+}
 
 class Main extends Component {
   constructor(props){
@@ -330,8 +330,8 @@ handleSubmit = async (event) => {
   // The inner object which will be user by the server
   const proxybody = {
       proxyurl: this.state.url, 
-      proxyrequestheaders: this.state.requestHeaders, 
-      proxyrequestbody: this.state.requestBody,
+      proxyrequestheaders: JSON.parse(JSON.stringify(this.state.requestHeaders)), 
+      proxyrequestbody: requestBody,
       proxymethod: this.state.value
   }
   
@@ -350,8 +350,8 @@ handleSubmit = async (event) => {
       console.log(response.config);
       
       this.setState({
-        responseHeaders: JSON.stringify(response.headers, null, 2),
-        responseBody: JSON.stringify(response.data, null, 2),
+        responseHeaders: response.headers,
+        responseBody: response.data,
         responseStatus: JSON.stringify(response.status, null, 2),
       })
 
