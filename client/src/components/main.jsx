@@ -290,9 +290,6 @@ class Main extends Component {
 
 this.handleSubmit = this.handleSubmit.bind(this);
 this.handleChange = this.handleChange.bind(this);
-this.handleRequestBody = this.handleRequestBody.bind(this);
-this.handleRequestHeaders = this.handleRequestHeaders.bind(this);
-
 
 
 /** 
@@ -306,21 +303,13 @@ console.log(`IN CTOR: ${this.state.requestBody}`);
 
 }; //end constructor
   
-handleRequestBody = (event) =>{
-  this.setState({requestBody: event.target.value});
-}
-
-handleRequestHeaders = (event) =>{
-  this.setState({requestHeaders: event.target.value});
-}
 
 handleSelect = (event) =>{
     this.setState({value: event.target.value});
   }
 
 handleChange = (event) => {
-  this.setState({url: event.target.value});
-  //this.setState({requestHeaders: event.target.value, requestBody: event.target.value});
+  this.setState({[event.target.name]: event.target.value})
   }
 
 handleSubmit = async (event) => {
@@ -363,6 +352,7 @@ handleSubmit = async (event) => {
 render(){
   return(
   <StyledRequestWrapper>
+    <form onSubmit={this.handleSubmit}>
     <StyledRequest>
       Request
     </StyledRequest>
@@ -375,18 +365,15 @@ render(){
       URL
     </StyledUrl>
     <StyledUrlBar>
-      <form onSubmit={this.handleSubmit}>
         <input
-          name="value"
+          name="url"
           value={this.state.url}
           onChange={this.handleChange}
           type="text"
           style={{width: "330px"}}/>
         <SendButton type="submit" value="Submit"/>
-      </form>
     </StyledUrlBar>
     <StyledMethodSelector>
-      <form onSubmit={this.handleSubmit}>
         <select onChange={this.handleSelect} value={this.state.value}>
           <option defaultValue="select">Select</option>
           <option value="get">GET</option>
@@ -394,23 +381,28 @@ render(){
           <option value="put">PUT</option>
           <option value="delete">DELETE</option>
         </select>
-      </form>
     </StyledMethodSelector>
     <StyledRequestBodyLabel>
       Body
     </StyledRequestBodyLabel>
     <StyledRequestBody>
-      <form onSubmit={this.handleSubmit}>
-        <textarea rows={5} cols={78} value={this.state.requestBody} onChange={this.handleRequestBody}/>
-      </form>
+      <input 
+        name="requestBody"
+        value={this.state.requestBody}
+        onChange={this.handleChange}
+        type="text"
+        style={{width: "645px", height: "130px"}}/>
     </StyledRequestBody>
     <StyledRequestHeaderLabel>
       Header
     </StyledRequestHeaderLabel>
     <StyledRequestHeader>
-      <form onSubmit={this.handleSubmit}>
-        <textarea rows={5} cols={78} value={this.state.requestHeaders} onChange={this.handleRequestHeaders}/>
-      </form>
+      <input 
+        name="requestHeaders"
+        value={this.state.requestHeaders}
+        onChange={this.handleChange}
+        type="text"
+        style={{width: "645px", height: "130px"}}/>
     </StyledRequestHeader>
     </RequestFrame>
     <StyledResponseWrapper>
@@ -445,6 +437,7 @@ render(){
       <CollectionsFrame>
       </CollectionsFrame>
     </StyledCollectionsWrapper>
+    </form>
   </StyledRequestWrapper>
   
     );
