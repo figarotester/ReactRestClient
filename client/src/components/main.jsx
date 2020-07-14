@@ -350,8 +350,8 @@ handleSubmit = async (event) => {
       console.log(response.config);
       
       this.setState({
-        responseHeaders: response.headers,
-        responseBody: response.data,
+        responseHeaders: JSON.stringify(response.headers, null, 2),
+        responseBody: JSON.stringify(response.data, null, 2),
         responseStatus: JSON.stringify(response.status, null, 2),
       })
 
