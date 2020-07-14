@@ -85,7 +85,10 @@ app.post('/proxy', function (req, res) {
     case "delete": 
     {
       console.log(`request for ${req.body.proxyurl} with method ${req.body.proxymethod}`);
-      axios.delete(req.body.proxyurl, {data: requestBody}, {withCredentials: true})
+      console.log(`Server: request url and method - ${req.body.proxyurl} with method ${req.body.proxymethod}`);
+      console.log(`Server: requestBody - ${JSON.parse(JSON.stringify(req.body.proxyrequestbody, null, 2))}`);
+      console.log(`Server: requestHeaders - ${JSON.stringify(req.body.proxyrequestheaders, null, 2)}`);
+      axios.delete(req.body.proxyurl, {data:req.body.proxyrequestbody}, req.body.proxyrequestheaders)
         .then(function (response) {
         console.log(`-------------\n${JSON.stringify(response.data)}\n-----------------`);
   
