@@ -4,14 +4,15 @@ import TabButton from './tab_button';
 import SendButton from './send_button';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import '../react-tabs.css';
+
 const axios = require('axios');
 
 const CollectionsFrame = styled.section`
   position: absolute;
-  width: 400px;
+  width: 550px;
   height: 289px;
-  left: 800px;
-  top: -296px;
+  left: 700px;
+  top: -327px;
 
   background: #EEEAEA;
 `;
@@ -28,8 +29,8 @@ const StyledCollections = styled.h1`
   position: absolute;
   width: 90px;
   height: 21px;
-  left: 850px;
-  top: -325px;
+  left: 930px;
+  top: -355px;
 
   font-family: Roboto;
   font-style: italic;
@@ -262,81 +263,48 @@ const StyledTabs = styled.section`
   top: -15px;
   `;
 
-  //TODO: this should come from the UI
-  /*const requestHeaders = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'xc-portal-source-client': 'MySpectrumApp@8.4.0',
-    'Authorization' : 'Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0'
-  }*/
-
-  //TODO: this should come from the UI
-  /*const requestBody = 
-  {
-    "KeepMeIn": true,
-  "Username": "billpay0026?recordsession=true&uriexactmatch=false",
-  "TargetUrl": null,
-  "Password": "Testing01",
-  "CaptchaResponse": null,
-  "AttemptNumber": 1
-}*/
-
 class Main extends Component {
   constructor(props){
     super(props);
-    
-  
-  // State vars
-  this.state = {
-  url: '',                        //proxyURL
-  requestHeaders: '',             //proxyRequestHeaders
-  requestBody: '',                //proxyRequestBody
-  responseBody:'',                //ProxyResponseBody
-  responseHeaders: '',            //ProxyResponseHeaders
-  responseStatus: '',             //ProxyResponseStatus
-  value: '',                      //drop-down
-  tabIndex: 0
+    // State vars
+    this.state = {
+    url: '',                        //proxyURL
+    requestHeaders: '',             //proxyRequestHeaders
+    requestBody: '',                //proxyRequestBody
+    responseBody:'',                //ProxyResponseBody
+    responseHeaders: '',            //ProxyResponseHeaders
+    responseStatus: '',             //ProxyResponseStatus
+    value: '',                      //drop-down
+    tabIndex: 0
+  };
 
-};
+  this.handleSubmit = this.handleSubmit.bind(this);
+  this.handleChange = this.handleChange.bind(this);
 
-this.handleSubmit = this.handleSubmit.bind(this);
-this.handleChange = this.handleChange.bind(this);
+  console.log(`IN CTOR: ${this.state.requestBody}`);
 
+  }; //end constructor
 
-/** 
-this.handleSelect = this.handleSelect.bind(this);
-this.handleRequestDisplay = this.handleRequestDisplay.bind(this);
-this.handleResponseDisplay = this.handleResponseDisplay.bind(this);
-**/
-
-console.log(`IN CTOR: ${this.state.requestBody}`);
-
-
-}; //end constructor
-  
-
-handleSelect = (event) =>{
+  handleSelect = (event) => {
     this.setState({value: event.target.value});
   }
 
-handleChange = (event) => {
-  this.setState({[event.target.name]: event.target.value})
+  handleChange = (event) => {
+    this.setState({[event.target.name]: event.target.value})
   }
 
-handleSubmit = async (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     console.log(`UI: proxybody: ${JSON.stringify(this.state.requestBody)}`); 
-  
-  // The inner object which will be user by the server
-  const proxybody = {
+    // The inner object which will be user by the server
+    const proxybody = {
       proxyurl: this.state.url, 
       proxyrequestheaders: JSON.parse(JSON.stringify(this.state.requestHeaders)), 
       proxyrequestbody: JSON.parse(this.state.requestBody),
       proxymethod: this.state.value
-  }
-  
-   console.log(`UI: body: ${JSON.stringify(proxybody)}`); 
-   axios(
+    }
+    console.log(`UI: body: ${JSON.stringify(proxybody)}`);
+    axios(
       {
         method: 'post',             // this will always be POST (wrapper call to the local node server)
         url: '/proxy',              // this will always be /proxy (local node/express endpoint)
@@ -348,13 +316,11 @@ handleSubmit = async (event) => {
       console.log('responseStatus:', response.status, response.statusText); 
       console.log('Headers:', response.headers);
       console.log(response.config);
-      
       this.setState({
         responseHeaders: JSON.stringify(response.headers, null, 2),
         responseBody: JSON.stringify(response.data, null, 2),
         responseStatus: JSON.stringify(response.status, null, 2),
       })
-
     }).catch(error => {
       console.log(error)
     })
@@ -460,8 +426,8 @@ render(){
       </StyledCollectionsWrapper>
     </form>
   </StyledRequestWrapper>
-  
     );
   }
 }
+
 export default Main
