@@ -1,45 +1,11 @@
 import React, {Component} from 'react';
-import styled from 'styled-components';
-import TabButton from './tab_button';
+import styled, {css} from 'styled-components';
 import SendButton from './send_button';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
+import Collections from './collections';
 import '../react-tabs.css';
 
 const axios = require('axios');
-
-const CollectionsFrame = styled.section`
-  position: absolute;
-  width: 550px;
-  height: 289px;
-  left: 700px;
-  top: -327px;
-
-  background: #EEEAEA;
-`;
-
-const StyledCollectionsWrapper = styled.section`
-  position: absolute;
-  width: 90px;
-  height: 21px;
-  left: 56px;
-  top: 347px;
-`;
-
-const StyledCollections = styled.h1`
-  position: absolute;
-  width: 90px;
-  height: 21px;
-  left: 930px;
-  top: -355px;
-
-  font-family: Roboto;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
-
-  color: #000000;
-`;
 
 const StyledStatusBar = styled.div`
   position: absolute;
@@ -263,6 +229,23 @@ const StyledTabs = styled.section`
   top: -15px;
   `;
 
+const StyledAddButton = styled.button`
+  position: absolute;
+  width: 38px;
+  height: 25px;
+  left: 360px;
+  top: -10px;
+  background: transparent;
+  
+  border: 2px solid black;
+  color: black;
+ 
+  ${props => props.primary && css`
+    background: black;
+    color: white;
+  `}
+`;
+
 class Main extends Component {
   constructor(props){
     super(props);
@@ -275,7 +258,8 @@ class Main extends Component {
     responseHeaders: '',            //ProxyResponseHeaders
     responseStatus: '',             //ProxyResponseStatus
     value: '',                      //drop-down
-    tabIndex: 0
+    tabIndex: 0,
+    collection: ''
   };
 
   this.handleSubmit = this.handleSubmit.bind(this);
@@ -329,7 +313,6 @@ class Main extends Component {
 render(){
   return(
   <StyledRequestWrapper>
-    <form onSubmit={this.handleSubmit}>
       <StyledRequest>
         Request
       </StyledRequest>
@@ -341,7 +324,7 @@ render(){
           <TabPanel></TabPanel>
         </Tabs>
       </StyledTabs>
-      <TabButton/>
+      <StyledAddButton>+</StyledAddButton>
       <RequestFrame>
         <StyledMethod>
           Method
@@ -349,6 +332,7 @@ render(){
         <StyledUrl>
           URL
         </StyledUrl>
+    <form onSubmit={this.handleSubmit}>
         <StyledUrlBar>
           <input
             name="url"
@@ -391,6 +375,7 @@ render(){
             rows={5}
             cols={78}/>
         </StyledRequestHeader>
+    </form>
       </RequestFrame>
       <StyledResponseWrapper>
         <StyledResponse>
@@ -417,14 +402,7 @@ render(){
           </StyledResponseHeader>
         </ResponseFrame>
       </StyledResponseWrapper>
-      <StyledCollectionsWrapper>
-        <StyledCollections>
-         Collections
-       </StyledCollections>
-       <CollectionsFrame>
-       </CollectionsFrame>
-      </StyledCollectionsWrapper>
-    </form>
+      <Collections/>
   </StyledRequestWrapper>
     );
   }
