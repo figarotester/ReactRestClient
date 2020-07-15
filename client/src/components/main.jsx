@@ -271,7 +271,7 @@ const StyledTabs = styled.section`
   }*/
 
   //TODO: this should come from the UI
-  const requestBody = 
+  /*const requestBody = 
   {
     "KeepMeIn": true,
   "Username": "billpay0026?recordsession=true&uriexactmatch=false",
@@ -279,7 +279,7 @@ const StyledTabs = styled.section`
   "Password": "Testing01",
   "CaptchaResponse": null,
   "AttemptNumber": 1
-}
+}*/
 
 class Main extends Component {
   constructor(props){
@@ -331,7 +331,7 @@ handleSubmit = async (event) => {
   const proxybody = {
       proxyurl: this.state.url, 
       proxyrequestheaders: JSON.parse(JSON.stringify(this.state.requestHeaders)), 
-      proxyrequestbody: requestBody,
+      proxyrequestbody: JSON.parse(this.state.requestBody),
       proxymethod: this.state.value
   }
   
@@ -364,98 +364,98 @@ render(){
   return(
   <StyledRequestWrapper>
     <form onSubmit={this.handleSubmit}>
-    <StyledRequest>
-      Request
-    </StyledRequest>
-    <StyledTabs>
-      <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({tabIndex})}>
-        <TabList>
-          <Tab>{this.state.url}</Tab>
-        </TabList>
-        <TabPanel></TabPanel>
-      </Tabs>
-    </StyledTabs>
-    <TabButton/>
-    <RequestFrame>
-    <StyledMethod>
-      Method
-    </StyledMethod>
-    <StyledUrl>
-      URL
-    </StyledUrl>
-    <StyledUrlBar>
-        <input
-          name="url"
-          value={this.state.url}
-          onChange={this.handleChange}
-          type="text"
-          style={{width: "330px"}}/>
+      <StyledRequest>
+        Request
+      </StyledRequest>
+      <StyledTabs>
+        <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({tabIndex})}>
+          <TabList>
+            <Tab>{this.state.url}</Tab>
+          </TabList>
+          <TabPanel></TabPanel>
+        </Tabs>
+      </StyledTabs>
+      <TabButton/>
+      <RequestFrame>
+        <StyledMethod>
+          Method
+        </StyledMethod>
+        <StyledUrl>
+          URL
+        </StyledUrl>
+        <StyledUrlBar>
+          <input
+            name="url"
+            value={this.state.url}
+            onChange={this.handleChange}
+            type="text"
+            style={{width: "330px"}}/>
         <SendButton type="submit" value="Submit"/>
-    </StyledUrlBar>
-    <StyledMethodSelector>
-        <select onChange={this.handleSelect} value={this.state.value}>
-          <option defaultValue="select">Select</option>
-          <option value="get">GET</option>
-          <option value="post">POST</option>
-          <option value="put">PUT</option>
-          <option value="delete">DELETE</option>
-        </select>
-    </StyledMethodSelector>
-    <StyledRequestBodyLabel>
-      Body
-    </StyledRequestBodyLabel>
-    <StyledRequestBody>
-      <input 
-        name="requestBody"
-        value={this.state.requestBody}
-        onChange={this.handleChange}
-        type="text"
-        style={{width: "645px", height: "130px"}}/>
-    </StyledRequestBody>
-    <StyledRequestHeaderLabel>
-      Headers
-    </StyledRequestHeaderLabel>
-    <StyledRequestHeader>
-      <input 
-        name="requestHeaders"
-        value={this.state.requestHeaders}
-        onChange={this.handleChange}
-        type="text"
-        style={{width: "645px", height: "130px"}}/>
-    </StyledRequestHeader>
-    </RequestFrame>
-    <StyledResponseWrapper>
-      <StyledResponse>
-        Response
-      </StyledResponse>
-      <ResponseFrame>
-        <StyledStatus>
-          Status
-        </StyledStatus>
-        <StyledStatusBar>
-          <textarea rows={1} cols={16} value={this.state.responseStatus} onChange={this.handleChange}/>
-        </StyledStatusBar>
-        <StyledResponseBodyLabel>
+        </StyledUrlBar>
+        <StyledMethodSelector>
+          <select onChange={this.handleSelect} value={this.state.value}>
+            <option defaultValue="select">Select</option>
+            <option value="get">GET</option>
+            <option value="post">POST</option>
+            <option value="put">PUT</option>
+            <option value="delete">DELETE</option>
+          </select>
+        </StyledMethodSelector>
+        <StyledRequestBodyLabel>
           Body
-        </StyledResponseBodyLabel>
-        <StyledResponseBody>
-          <textarea rows={5} cols={78} value={this.state.responseBody} onChange={this.handleChange}/>
-        </StyledResponseBody>
-        <StyledResponseHeaderLabel>
+        </StyledRequestBodyLabel>
+        <StyledRequestBody>
+          <input 
+            name="requestBody"
+            value={this.state.requestBody}
+            onChange={this.handleChange}
+            type="text"
+            style={{width: "645px", height: "130px"}}/>
+        </StyledRequestBody>
+        <StyledRequestHeaderLabel>
           Headers
-        </StyledResponseHeaderLabel>
-        <StyledResponseHeader>
-        <textarea rows={5} cols={78} value={this.state.responseHeaders} onChange={this.handleChange}/>
-        </StyledResponseHeader>
-      </ResponseFrame>
-    </StyledResponseWrapper>
-    <StyledCollectionsWrapper>
-      <StyledCollections>
-        Collections
-      </StyledCollections>
-      <CollectionsFrame>
-      </CollectionsFrame>
-    </StyledCollectionsWrapper>
+        </StyledRequestHeaderLabel>
+        <StyledRequestHeader>
+          <input 
+            name="requestHeaders"
+            value={this.state.requestHeaders}
+            onChange={this.handleChange}
+            type="text"
+            style={{width: "645px", height: "130px"}}/>
+        </StyledRequestHeader>
+      </RequestFrame>
+      <StyledResponseWrapper>
+        <StyledResponse>
+          Response
+        </StyledResponse>
+        <ResponseFrame>
+          <StyledStatus>
+            Status
+          </StyledStatus>
+          <StyledStatusBar>
+            <textarea rows={1} cols={16} value={this.state.responseStatus} onChange={this.handleChange}/>
+          </StyledStatusBar>
+          <StyledResponseBodyLabel>
+            Body
+          </StyledResponseBodyLabel>
+          <StyledResponseBody>
+            <textarea rows={5} cols={78} value={this.state.responseBody} onChange={this.handleChange}/>
+          </StyledResponseBody>
+          <StyledResponseHeaderLabel>
+            Headers
+          </StyledResponseHeaderLabel>
+          <StyledResponseHeader>
+            <textarea rows={5} cols={78} value={this.state.responseHeaders} onChange={this.handleChange}/>
+          </StyledResponseHeader>
+        </ResponseFrame>
+      </StyledResponseWrapper>
+      <StyledCollectionsWrapper>
+        <StyledCollections>
+         Collections
+       </StyledCollections>
+       <CollectionsFrame>
+       </CollectionsFrame>
+      </StyledCollectionsWrapper>
     </form>
   </StyledRequestWrapper>
   

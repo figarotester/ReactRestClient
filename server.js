@@ -41,8 +41,8 @@ app.post('/proxy', function (req, res) {
     case "post": 
     {
       console.log(`Server: request url and method - ${req.body.proxyurl} with method ${req.body.proxymethod}`);
-      console.log(`Server: requestBody - ${JSON.parse(JSON.stringify(req.body.proxyrequestbody, null, 2))}`);
-      console.log(`Server: requestHeaders - ${JSON.stringify(req.body.proxyrequestheaders, null, 2)}`);
+      console.log(`Server: requestBody - ${JSON.stringify(req.body.proxyrequestbody, null, 2)}`);
+      console.log(`Server: requestHeaders - ${JSON.parse(JSON.stringify(req.body.proxyrequestheaders, null, 2))}`);
       axios.post(req.body.proxyurl, req.body.proxyrequestbody, req.body.proxyrequestheaders)
         .then(function (response) {
         console.log(`-------------\n${JSON.stringify(response.data)}\n-----------------`);
