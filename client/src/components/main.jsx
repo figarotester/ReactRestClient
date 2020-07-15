@@ -405,23 +405,25 @@ render(){
           Body
         </StyledRequestBodyLabel>
         <StyledRequestBody>
-          <input 
+          <textarea 
             name="requestBody"
             value={this.state.requestBody}
             onChange={this.handleChange}
             type="text"
-            style={{width: "645px", height: "130px"}}/>
+            rows={5}
+            cols={78}/>
         </StyledRequestBody>
         <StyledRequestHeaderLabel>
           Headers
         </StyledRequestHeaderLabel>
         <StyledRequestHeader>
-          <input 
+          <textarea
             name="requestHeaders"
             value={this.state.requestHeaders}
             onChange={this.handleChange}
             type="text"
-            style={{width: "645px", height: "130px"}}/>
+            rows={5}
+            cols={78}/>
         </StyledRequestHeader>
       </RequestFrame>
       <StyledResponseWrapper>
