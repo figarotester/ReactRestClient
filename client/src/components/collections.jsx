@@ -1,6 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component} from "react";
 import styled from 'styled-components';
-
 
 const CollectionsFrame = styled.section`
   position: absolute;
@@ -37,48 +36,64 @@ const StyledCollections = styled.h1`
 `;
 
 class Collections extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      name: '',
-      responseName: ''
-     }
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      collections: [{ name: "" }]
+    };
   }
 
-  handleChange = (event) => {
-    this.setState({name: event.target.value})
-  }
+  handleCollectionNameChange = idx => event => {
+    const newCollections = this.state.collections.map((collection, cidx) => {
+      if (idx !== cidx) return collection;
+      return { ...collection, name: event.target.value };
+    });
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+    this.setState({ collections: newCollections });
+  };
+
+  handleAddCollection = () => {
     this.setState({
-      responseName: this.state.name
-    })
+      collections: this.state.collections.concat([{ name: "" }])
+    });
+  };
 
-  }
+  handleRemoveCollection = idx => () => {
+    this.setState({
+      collections: this.state.collections.filter((c, cidx) => idx !== cidx)
+    });
+  };
 
-  render() { 
-    return ( 
+  render() {
+    return (
       <StyledCollectionsWrapper>
         <StyledCollections>
           Collections
         </StyledCollections>
         <CollectionsFrame>
           <form onSubmit={this.handleSubmit}>
-            <input 
-              type="text" 
-              value={this.state.name}  
-              onChange={this.handleChange}
-              placeholder="New collection"/>
-            <input type="submit" value="Add"/>
+            {this.state.collections.map((collection, idx) => (
+              <div className="collection">
+                <input
+                  type="text"
+                  placeholder={`Collection #${idx + 1} name`}
+                  value={collection.name}
+                  onChange={this.handleCollectionNameChange(idx)}
+                />
+                <button type="button" onClick={this.handleRemoveCollection(idx)} className="small">
+                  delete
+                </button>
+              </div>
+            ))}
+            <button type="button" onClick={this.handleAddCollection} className="small">
+              Add New Collection
+            </button>
           </form>
-          <br/>
-          <p>{this.state.responseName}</p>
         </CollectionsFrame>
       </StyledCollectionsWrapper>
-      
-     );
+    );
   }
 }
- 
-export default Collections;
+
+export default Collections
