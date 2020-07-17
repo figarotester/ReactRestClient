@@ -1,5 +1,8 @@
 import React, {Component} from "react";
 import styled from 'styled-components';
+import CollectionPopup from "./collection_popup";
+import RequestPopup from "./request_popup";
+import {DropdownButton, Dropdown} from 'react-bootstrap';
 
 const CollectionsFrame = styled.section`
   position: absolute;
@@ -35,35 +38,62 @@ const StyledCollections = styled.h1`
   color: #000000;
 `;
 
+const StyledRequestButton = styled.button`
+  position: absolute;
+  width: 150px;
+  left: 395px;
+  top: 5px;
+`;
+
+
+
 class Collections extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+ 
     this.state = {
-      name: "",
-      collections: [{ name: "" }]
+      collectionName: '',
+      requestName: '',
+      collections: [],
+      requests: [],
+      showCollectionPopup: false,
+      showRequestPopup: false
     };
   }
 
-  handleCollectionNameChange = idx => event => {
-    const newCollections = this.state.collections.map((collection, cidx) => {
-      if (idx !== cidx) return collection;
-      return { ...collection, name: event.target.value };
+  toggleCollectionPopup = () => {
+    this.setState({
+      showCollectionPopup: !this.state.showCollectionPopup
     });
+  }
 
-    this.setState({ collections: newCollections });
-  };
+  toggleRequestPopup = () => {
+    this.setState({
+      showRequestPopup: !this.state.showRequestPopup
+    });
+  }
+
+  handleChangeCollection = (event) => {
+    this.setState({collectionName: event.target.value})
+  }
+
+  handleChangeRequest = (event) => {
+    this.setState({requestName: event.target.value})
+  }
+
 
   handleAddCollection = () => {
     this.setState({
-      collections: this.state.collections.concat([{ name: "" }])
-    });
-  };
+      collections: this.state.collections.concat(this.state.collectionName)
+      
+    })
+  }
 
-  handleRemoveCollection = idx => () => {
+  handleAddRequest = () => {
     this.setState({
-      collections: this.state.collections.filter((c, cidx) => idx !== cidx)
-    });
-  };
+      requests: this.state.collections.push(this.state.requestName)
+    })
+  }
 
   render() {
     return (
@@ -72,24 +102,42 @@ class Collections extends Component {
           Collections
         </StyledCollections>
         <CollectionsFrame>
-          <form onSubmit={this.handleSubmit}>
-            {this.state.collections.map((collection, idx) => (
-              <div className="collection">
-                <input
-                  type="text"
-                  placeholder={`Collection #${idx + 1} name`}
-                  value={collection.name}
-                  onChange={this.handleCollectionNameChange(idx)}
-                />
-                <button type="button" onClick={this.handleRemoveCollection(idx)} className="small">
-                  delete
-                </button>
-              </div>
+          <button onClick={this.toggleCollectionPopup.bind(this)}>
+            Add New Collection
+          </button>
+          <ul>
+            {this.state.collections.map( (key) => (
+            <li>
+              <DropdownButton title={key}>
+                <Dropdown.Item>
+                  {this.state.requestName}
+                </Dropdown.Item>
+
+              </DropdownButton>
+            </li>
             ))}
-            <button type="button" onClick={this.handleAddCollection} className="small">
-              Add New Collection
-            </button>
-          </form>
+          </ul>
+          {this.state.showCollectionPopup ?
+            <CollectionPopup
+              text='New Collection'
+              closePopup={this.toggleCollectionPopup.bind(this)}
+              saveCollection={this.handleAddCollection}
+              collectionText={this.handleChangeCollection}/>
+            : null
+          }
+          <StyledRequestButton onClick={this.toggleRequestPopup.bind(this)}>
+            Add New Request
+          </StyledRequestButton>
+          {this.state.showRequestPopup ?
+            <RequestPopup
+              text='New Request'
+              closePopup={this.toggleRequestPopup.bind(this)}
+              saveRequest={this.handleAddRequest}
+              requestText={this.handleChangeRequest}
+              collectionFolder={this.state.collectionName}
+              collectionItem={this.state.collections}/>
+            : null
+          }
         </CollectionsFrame>
       </StyledCollectionsWrapper>
     );
