@@ -2,12 +2,13 @@ import React, {Component} from "react";
 import styled from 'styled-components';
 import CollectionPopup from "./collection_popup";
 import RequestPopup from "./request_popup";
-import {DropdownButton, Dropdown} from 'react-bootstrap';
+import {Collapse} from "react-collapse";
+import classNames from "classnames";
 
 const CollectionsFrame = styled.section`
   position: absolute;
   width: 550px;
-  height: 289px;
+  height: 370px;
   left: 700px;
   top: -327px;
 
@@ -45,8 +46,6 @@ const StyledRequestButton = styled.button`
   top: 5px;
 `;
 
-
-
 class Collections extends Component {
   constructor(props) {
     super(props);
@@ -55,10 +54,34 @@ class Collections extends Component {
       collectionName: '',
       requestName: '',
       collections: [],
-      requests: [],
       showCollectionPopup: false,
-      showRequestPopup: false
+      showRequestPopup: false,
+      activeIndex: null
     };
+
+    this.toggleClass = this.toggleClass.bind(this);
+  }
+
+  toggleClass = (index) => {
+    this.setState({
+      activeIndex: this.state.activeIndex === index ? null : index
+    })
+  }
+
+  moreLess = (index) => {
+    if (this.state.activeIndex === index) {
+      return (
+        <span>
+          <i className="angle up"/> Hide requests
+        </span>
+      );
+    } else {
+      return (
+        <span>
+          <i className="angle down"/> Show requests
+        </span>
+      );
+    }
   }
 
   toggleCollectionPopup = () => {
@@ -81,21 +104,52 @@ class Collections extends Component {
     this.setState({requestName: event.target.value})
   }
 
-
   handleAddCollection = () => {
     this.setState({
       collections: this.state.collections.concat(this.state.collectionName)
-      
     })
   }
 
   handleAddRequest = () => {
     this.setState({
-      requests: this.state.collections.push(this.state.requestName)
+      requestName: this.state.requestName
     })
   }
 
   render() {
+    let content;
+    const { activeIndex } = this.state;
+    if (this.props.loading) {
+      content = "Loading...";
+    } else {
+      content = this.state.collections.map((index) => {
+        return (
+          <li key={index}>
+            <div>
+              <p>{index}</p>
+              <Collapse isOpened={activeIndex === index}>
+                <div
+                  className={classNames("alert alert-info msg", {
+                    show: activeIndex === index,
+                    hide: activeIndex !== index
+                  })}
+                >
+                  <button>
+                    {this.state.requestName}
+                  </button>
+                </div>
+              </Collapse>
+              <button
+                className="btn btn-primary btn-xs"
+                onClick={this.toggleClass.bind(this, index)}
+              >
+                {this.moreLess(index)}
+              </button>
+            </div>
+          </li>
+        );
+      });
+    }
     return (
       <StyledCollectionsWrapper>
         <StyledCollections>
@@ -105,18 +159,7 @@ class Collections extends Component {
           <button onClick={this.toggleCollectionPopup.bind(this)}>
             Add New Collection
           </button>
-          <ul>
-            {this.state.collections.map( (key) => (
-            <li>
-              <DropdownButton title={key}>
-                <Dropdown.Item>
-                  {this.state.requestName}
-                </Dropdown.Item>
-
-              </DropdownButton>
-            </li>
-            ))}
-          </ul>
+          <ul>{content}</ul>
           {this.state.showCollectionPopup ?
             <CollectionPopup
               text='New Collection'

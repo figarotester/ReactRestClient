@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import '../style.css';
 import styled from 'styled-components';
-import {DropdownButton, Dropdown} from 'react-bootstrap';
 
 const StyledCancelButton = styled.button`
   position: absolute;
@@ -47,6 +46,17 @@ const StyledCollectionSelector = styled.div`
 `;
 
 class RequestPopup extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+    collection: ''
+    };
+  }
+
+  handleSelectCollection = (event) => {
+    this.setState({collection: event.target.value});
+  }
+
   render() {
     return (
       <div className='popup'>
@@ -64,11 +74,10 @@ class RequestPopup extends Component {
             <h1>Collection</h1>
           </StyledNewCollection>
           <StyledCollectionSelector>
-            <DropdownButton title="Select collection">
-              <Dropdown.Item>
-                {this.props.collectionItem}
-              </Dropdown.Item>
-            </DropdownButton>
+            <select onChange={this.handleSelectCollection} value={this.state.collection}>
+              <option defaultValue="select">Select Collection</option>
+              <option value={this.props.collectionItem}>{this.props.collectionItem}</option>
+            </select>
           </StyledCollectionSelector>
           <StyledCancelButton onClick={this.props.closePopup}>
             Cancel
