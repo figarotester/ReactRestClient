@@ -162,11 +162,11 @@ class Collections extends Component {
     const { activeIndex } = this.state;
     if (this.state.selectedFile) {
     for (const element of items) {
-        test.push(element["name"]);
+        requests.push(element["name"]);
         console.log(element["request"])
     }
 
-    const listRequest = test.map((requests) =>
+    const listRequest = requests.map((requests) =>
       <li>
         <button>{requests}</button>
       </li>
