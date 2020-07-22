@@ -19,7 +19,7 @@ const StyledSaveButton = styled.button`
 const StyledNewRequest = styled.section`
   position: absolute;
   height: 21px;
-  left: 250px;
+  left: 215px;
   top: 0px;
 `;
 

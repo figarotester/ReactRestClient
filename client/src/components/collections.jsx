@@ -5,9 +5,11 @@ import RequestPopup from "./request_popup";
 import {Collapse} from "react-collapse";
 import classNames from "classnames";
 
+var data = require('./data/data.json');
+
 const CollectionsFrame = styled.section`
   position: absolute;
-  width: 550px;
+  width: 530px;
   height: 370px;
   left: 700px;
   top: -327px;
@@ -19,7 +21,7 @@ const StyledCollectionsWrapper = styled.section`
   position: absolute;
   width: 90px;
   height: 21px;
-  left: 56px;
+  left: 105px;
   top: 347px;
 `;
 
@@ -41,9 +43,28 @@ const StyledCollections = styled.h1`
 
 const StyledRequestButton = styled.button`
   position: absolute;
-  width: 150px;
-  left: 395px;
+  width: 170px;
+  left: -210px;
+  top: 23px;
+`;
+
+const StyledImportHeader = styled.h6`
+  position: absolute;
+  left: 315px;
   top: 5px;
+`;
+
+const StyledChooseFile = styled.section`
+  position: absolute;
+  left: 315px;
+  top: 35px;
+`;
+
+const StyledUploadFile = styled.section`
+  position: absolute;
+  left: -200px;
+  top: 30px;
+
 `;
 
 class Collections extends Component {
@@ -56,10 +77,17 @@ class Collections extends Component {
       collections: [],
       showCollectionPopup: false,
       showRequestPopup: false,
-      activeIndex: null
+      activeIndex: null,
+      selectedFile: null,
     };
 
     this.toggleClass = this.toggleClass.bind(this);
+  }
+
+  onFileChange = (event) => {
+    this.setState({ 
+      selectedFile: event.target.files[0],
+    });
   }
 
   toggleClass = (index) => {
@@ -117,11 +145,64 @@ class Collections extends Component {
   }
 
   render() {
+    let requests = []
+    let test = [
+      {
+        name:'',
+        method: '',
+        url: '',
+        header: '',
+        body: ''
+      }
+  ]
+    let file;
     let content;
+    let all = JSON.parse(JSON.stringify(data));
+    let items = all["item"];
     const { activeIndex } = this.state;
-    if (this.props.loading) {
-      content = "Loading...";
-    } else {
+    if (this.state.selectedFile) {
+    for (const element of items) {
+        test.push(element["name"]);
+        console.log(element["request"])
+    }
+
+    const listRequest = test.map((requests) =>
+      <li>
+        <button>{requests}</button>
+      </li>
+      )
+    
+      file = this.state.collections.map((index) => {
+        return (
+          <li key={index}>
+            <div>
+              <p>{this.state.selectedFile.name}</p>
+              <Collapse isOpened={activeIndex === index}>
+                <div
+                  className={classNames("alert alert-info msg", {
+                    show: activeIndex === index,
+                    hide: activeIndex !== index
+                  })}
+                >
+                  <ul>
+                    {listRequest}
+                  </ul>
+                </div>
+              </Collapse>
+              <button
+                className="btn btn-primary btn-xs"
+                onClick={this.toggleClass.bind(this, index)}
+              >
+                {this.moreLess(index)}
+              </button>
+            </div>
+          </li>
+        );
+      });
+    }
+  
+    else{
+      const { activeIndex } = this.state;
       content = this.state.collections.map((index) => {
         return (
           <li key={index}>
@@ -159,6 +240,14 @@ class Collections extends Component {
           <button onClick={this.toggleCollectionPopup.bind(this)}>
             Add New Collection
           </button>
+          <StyledImportHeader>
+            Import from JSON
+          </StyledImportHeader>
+          <StyledChooseFile>
+            <input type="file" accept=".json" onChange={this.onFileChange}/>
+            <button onClick={this.handleAddCollection}>Upload</button>
+          </StyledChooseFile>
+          <ul>{file}</ul>
           <ul>{content}</ul>
           {this.state.showCollectionPopup ?
             <CollectionPopup
@@ -169,11 +258,11 @@ class Collections extends Component {
             : null
           }
           <StyledRequestButton onClick={this.toggleRequestPopup.bind(this)}>
-            Add New Request
+            Save to collections
           </StyledRequestButton>
           {this.state.showRequestPopup ?
             <RequestPopup
-              text='New Request'
+              text='Save Request As..'
               closePopup={this.toggleRequestPopup.bind(this)}
               saveRequest={this.handleAddRequest}
               requestText={this.handleChangeRequest}

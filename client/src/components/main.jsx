@@ -118,7 +118,7 @@ const StyledRequestWrapper = styled.section`
 
 const RequestFrame = styled.section`
   position: absolute;
-  width: 730px;
+  width: 805px;
   height: 370px;
   left: -30px;
   top: 20px;

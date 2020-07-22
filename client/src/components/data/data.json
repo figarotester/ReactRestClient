@@ -1,0 +1,283 @@
+{
+    "info": {
+      "_postman_id": "25f13d59-b534-4142-b0fe-193a752c5fc9",
+      "name": "ReactClient",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "0_healthcheck",
+        "request": {
+          "auth": {
+            "type": "basic",
+            "basic": [
+              {
+                "key": "username",
+                "value": "charternet",
+                "type": "string"
+              },
+              {
+                "key": "password",
+                "value": "Chart3rn3t",
+                "type": "string"
+              },
+              {
+                "key": "saveHelperData",
+                "type": "any"
+              },
+              {
+                "key": "showPassword",
+                "value": false,
+                "type": "boolean"
+              }
+            ]
+          },
+          "method": "GET",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "url": {
+            "raw": "https://test.figaro-spc.fe-spectrum.net/core/healthcheck",
+            "protocol": "https",
+            "host": [
+              "test",
+              "figaro-spc",
+              "fe-spectrum",
+              "net"
+            ],
+            "path": [
+              "core",
+              "healthcheck"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "3_Accounts",
+        "request": {
+          "method": "GET",
+          "header": [
+            {
+              "key": "x-charter-session",
+              "value": "<replace with the chtrsessionid cookie value from the 2_initiate call>",
+              "type": "text"
+            },
+            {
+              "key": "Accept",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "url": {
+            "raw": "https://test.figaro-spc.fe-spectrum.net/api/pub/account/v1/accounts",
+            "protocol": "https",
+            "host": [
+              "test",
+              "figaro-spc",
+              "fe-spectrum",
+              "net"
+            ],
+            "path": [
+              "api",
+              "pub",
+              "account",
+              "v1",
+              "accounts"
+            ]
+          },
+          "description": "https://oas-ui.figaro.spectrumtoolbox.com/#/oas/spc-account"
+        },
+        "response": []
+      },
+      {
+        "name": "2_initiate",
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "2abff22e-664d-47bf-a8c4-39ce0fdd791f",
+              "exec": [
+                "pm.response.headers.all()",
+                "    .filter(headerObj => { return (headerObj.key == \"Set-Cookie\") || (headerObj.key == \"set-cookie\") ;})",
+                "    .forEach(headerObj => {",
+                "        let cookie = headerObj.value;",
+                "        let cn = cookie.substring(0, cookie.indexOf(\"=\"));",
+                "        let cv = cookie.substring(cookie.indexOf(\"=\")+1, cookie.indexOf(\";\"));",
+                "        //console.log(\"name:\" + cn + \"; value:\" + cv);",
+                "        switch (cn) {",
+                "            case 'chtrsessionid': {",
+                "              postman.setEnvironmentVariable('token', cv);",
+                "              console.log(\"name:\" + cn + \"; value:\" + cv);",
+                "            }",
+                "            break;",
+                "            case 'chtrsessionid_encrypted': {",
+                "              postman.setEnvironmentVariable('chtrsessionid_encrypted', cv);",
+                "              console.log(\"name:\" + cn + \"; value:\" + cv);",
+                "            }",
+                "            break;",
+                "            case 'XSRF-TOKEN': {",
+                "              postman.setEnvironmentVariable('XSRF-TOKEN', cv);",
+                "              console.log(\"name:\" + cn + \"; value:\" + cv);",
+                "            }",
+                "            break;",
+                "            case '_t': {",
+                "              postman.setEnvironmentVariable('_t', cv);",
+                "              console.log(\"name:\" + cn + \"; value:\" + cv);",
+                "            }",
+                "            break;",
+                "        }",
+                "    });",
+                ""
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ],
+        "request": {
+          "auth": {
+            "type": "basic",
+            "basic": [
+              {
+                "key": "password",
+                "value": "Chart3rn3t",
+                "type": "string"
+              },
+              {
+                "key": "username",
+                "value": "charternet",
+                "type": "string"
+              }
+            ]
+          },
+          "method": "POST",
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json",
+              "type": "text"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            },
+            {
+              "key": "Cookie",
+              "value": "authcookie=Spec2Jars!",
+              "type": "text"
+            },
+            {
+              "warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+              "key": "Authorization",
+              "value": "Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n\"EncryptedSessionId\": \"*\",\n  \"ClientIp\": \"127.0.0.1\",\n  \"TargetURL\": \"null\",\n  \"SessionId\": \"<replace with 'LCharterSession.SessionId' value from the 1_Authenticate call response>\",\n  \"PKey\": \"*\",\n  \"KeepMeIn\": false\n  }"
+          },
+          "url": {
+            "raw": "https://test.figaro-spc.fe-spectrum.net/api/pub/session/v2/initiate",
+            "protocol": "https",
+            "host": [
+              "test",
+              "figaro-spc",
+              "fe-spectrum",
+              "net"
+            ],
+            "path": [
+              "api",
+              "pub",
+              "session",
+              "v2",
+              "initiate"
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "1_Authenticate",
+        "event": [
+          {
+            "listen": "test",
+            "script": {
+              "id": "888d28bf-1453-4938-b419-66b2570df0e3",
+              "exec": [
+                "var response=JSON.parse(responseBody);",
+                "",
+                "var sessid = response.LCharterSession.SessionId;",
+                "postman.setEnvironmentVariable('sessid', sessid);",
+                "",
+                "var encsessid = response.LCharterSession.EncryptedSessionId;",
+                "postman.setEnvironmentVariable('encsessid', encsessid);",
+                "",
+                "var pkey = response.LCharterSession.PKey;",
+                "postman.setEnvironmentVariable('pkey', pkey);"
+              ],
+              "type": "text/javascript"
+            }
+          }
+        ],
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Accept",
+              "value": "application/json",
+              "type": "text"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            },
+            {
+              "key": "xc-portal-source-client",
+              "value": " MySpectrumApp@8.4.0",
+              "type": "text"
+            },
+            {
+              "key": "Authorization",
+              "value": "Basic Y2hhcnRlcm5ldDpDaGFydDNybjN0",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"KeepMeIn\": true,\n  \"Username\": \"billpay0026?recordsession=true&uriexactmatch=false\",\n  \"TargetUrl\": null,\n  \"Password\": \"Testing01\",\n  \"CaptchaResponse\": null,\n  \"AttemptNumber\": 1\n}"
+          },
+          "url": {
+            "raw": "https://test.figaro-spc.fe-spectrum.net/api/pub/authn/v1/authenticate",
+            "protocol": "https",
+            "host": [
+              "test",
+              "figaro-spc",
+              "fe-spectrum",
+              "net"
+            ],
+            "path": [
+              "api",
+              "pub",
+              "authn",
+              "v1",
+              "authenticate"
+            ]
+          }
+        },
+        "response": []
+      }
+    ],
+    "protocolProfileBehavior": {}
+  }
