@@ -4,6 +4,8 @@ import SendButton from './send_button';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import Collections from './collections';
 import '../react-tabs.css';
+import Dropdown from 'react-dropdown';
+import '../react-dropdown.css';
 
 const axios = require('axios');
 
@@ -141,7 +143,7 @@ const StyledResponse = styled.h1`
 
 const ResponseFrame = styled.section`
   position: absolute;
-  width: 730px;
+  width: 805px;
   height: 360px;
   left: -30px;
   top: 100px;
@@ -215,9 +217,8 @@ const StyledRequestHeader = styled.section`
 
 const StyledMethodSelector = styled.div`
   position: absolute;
-  width: 94px;
-  height: 20px;
-  left: 9px;
+  width: 85px;
+  left: 5px;
   top: 24px;
 `;
 
@@ -251,13 +252,14 @@ class Main extends Component {
     super(props);
     // State vars
     this.state = {
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    selectedMethod: '',
     url: '',                        //proxyURL
     requestHeaders: '',             //proxyRequestHeaders
     requestBody: '',                //proxyRequestBody
     responseBody:'',                //ProxyResponseBody
     responseHeaders: '',            //ProxyResponseHeaders
     responseStatus: '',             //ProxyResponseStatus
-    value: '',                      //drop-down
     tabIndex: 0,
   };
 
@@ -271,15 +273,16 @@ class Main extends Component {
 
   handlePopulate = (method, url, body, headerKey, headerValue) => {
     this.setState({
-      value: method,
+      selectedMethod: method,
       url: url,
       requestBody: body,
       requestHeaders: `${headerKey}: ${headerValue}`
     })
   }
 
-  handleSelect = (event) => {
-    this.setState({value: event.target.value});
+  handleSelectMethod = (option) => {
+    const selectedMethod = option.value
+    this.setState({selectedMethod});
   }
 
   handleChange = (event) => {
@@ -302,7 +305,7 @@ class Main extends Component {
       proxyurl: this.state.url, 
       proxyrequestheaders: JSON.parse(JSON.stringify(this.state.requestHeaders)), 
       proxyrequestbody: this.state.requestBody,
-      proxymethod: this.state.value
+      proxymethod: this.state.selectedMethod
     }
 
     console.log(`UI: body: ${JSON.stringify(proxybody)}`);
@@ -329,6 +332,7 @@ class Main extends Component {
   }
 
 render(){
+  const {selectedMethod, methods} = this.state;
   return(
   <StyledRequestWrapper>
       <StyledRequest>
@@ -361,13 +365,11 @@ render(){
         <SendButton type="submit" value="Submit"/>
         </StyledUrlBar>
         <StyledMethodSelector>
-          <select onChange={this.handleSelect} value={this.state.value}>
-            <option defaultValue="select">Select</option>
-            <option value="get">GET</option>
-            <option value="post">POST</option>
-            <option value="put">PUT</option>
-            <option value="delete">DELETE</option>
-          </select>
+          <Dropdown 
+            options={methods}
+            onChange={this.handleSelectMethod}
+            value={selectedMethod}
+            placeholder="Select"/>
         </StyledMethodSelector>
         <StyledRequestBodyLabel>
           Body
@@ -421,6 +423,7 @@ render(){
         </ResponseFrame>
       </StyledResponseWrapper>
       <Collections onSubmit={this.handlePopulate}/>
+      
   </StyledRequestWrapper>
     );
   }
