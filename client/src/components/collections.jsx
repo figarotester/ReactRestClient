@@ -4,6 +4,7 @@ import CollectionPopup from "./collection_popup";
 import RequestPopup from "./request_popup";
 import {Collapse} from "react-collapse";
 import classNames from "classnames";
+//import exportFromJSON from 'export-from-json';
 
 var data = require('./data/data.json');
 
@@ -60,10 +61,10 @@ const StyledChooseFile = styled.section`
   top: 35px;
 `;
 
-const StyledUploadFile = styled.section`
+const StyledExportFile = styled.section`
   position: absolute;
-  left: -200px;
-  top: 30px;
+  left: 300px;
+  top: 100px;
 
 `;
 
@@ -79,9 +80,16 @@ class Collections extends Component {
       showRequestPopup: false,
       activeIndex: null,
       selectedFile: null,
+      methodPopulate: '',
+      urlPopulate: '',
+      bodyPopulate: '',
+      headerKeyPopulate: '',
+      headerValuePopulate: ''
     };
 
     this.toggleClass = this.toggleClass.bind(this);
+    this.submitPopulate = this.submitPopulate.bind(this);
+
   }
 
   onFileChange = (event) => {
@@ -144,17 +152,37 @@ class Collections extends Component {
     })
   }
 
+  submitPopulate = ( currentMethod, currentUrl, currentBody, currentHeaderKey, currentHeaderValue) => {
+
+    this.state.methodPopulate = currentMethod
+    this.state.urlPopulate = currentUrl
+    this.state.bodyPopulate = currentBody
+    this.state.headerKeyPopulate = currentHeaderKey
+    this.state.headerValuePopulate = currentHeaderValue
+
+    
+
+    /*this.setState({
+      requestPopulate: currentRequest
+    })*/
+
+    const {methodPopulate} = this.state;
+    const {urlPopulate} = this.state;
+    const {bodyPopulate} = this.state;
+    const {headerKeyPopulate} = this.state;
+    const {headerValuePopulate} = this.state;
+    const {onSubmit} = this.props;
+
+    onSubmit(methodPopulate, urlPopulate, JSON.parse(JSON.stringify(bodyPopulate)), JSON.stringify(headerKeyPopulate), JSON.stringify(headerValuePopulate))
+  } 
+
   render() {
     let requests = []
-    let test = [
-      {
-        name:'',
-        method: '',
-        url: '',
-        header: '',
-        body: ''
-      }
-  ]
+    let allMethod = []
+    let allBody = []
+    let allHeaderKey = []
+    let allHeaderValue = []
+    let allUrl = []
     let file;
     let content;
     let all = JSON.parse(JSON.stringify(data));
@@ -162,13 +190,36 @@ class Collections extends Component {
     const { activeIndex } = this.state;
     if (this.state.selectedFile) {
     for (const element of items) {
-        requests.push(element["name"]);
-        console.log(element["request"])
+      requests.push(element["name"]);
+      allMethod.push(element["request"].method)
+      allUrl.push(element["request"].url.raw)
+
+      for (const headerElement of element["request"].header){
+        allHeaderKey.push(headerElement.key)
+        allHeaderValue.push(headerElement.value)
+      }
     }
 
-    const listRequest = requests.map((requests) =>
+    for (const get of allMethod){
+      if (get === "GET"){
+        allBody.push("")
+      }
+      else{
+        for(const element of items){
+          if(element["request"].body){
+            allBody.push(element["request"].body.raw)
+          }
+        }
+      }
+    }
+
+    const listRequest = requests.map((requests, index) =>
       <li>
-        <button>{requests}</button>
+        <button
+        id={index} 
+         onClick={currentRequest => this.submitPopulate(allMethod[index], allUrl[index], allBody[index], allHeaderKey[index], allHeaderValue[index])}> 
+          {requests}
+        </button>
       </li>
       )
     
@@ -237,6 +288,9 @@ class Collections extends Component {
           Collections
         </StyledCollections>
         <CollectionsFrame>
+        {/* <pre id="dataJSON">
+          what
+        </pre> */}
           <button onClick={this.toggleCollectionPopup.bind(this)}>
             Add New Collection
           </button>
@@ -247,6 +301,13 @@ class Collections extends Component {
             <input type="file" accept=".json" onChange={this.onFileChange}/>
             <button onClick={this.handleAddCollection}>Upload</button>
           </StyledChooseFile>
+          <StyledExportFile>
+          {/* <label>
+              file name:
+              <input id="fileName" placeholder="file name"/>
+          </label>
+          <button onClick="download('json')">download JSON file</button> */}
+          </StyledExportFile>
           <ul>{file}</ul>
           <ul>{content}</ul>
           {this.state.showCollectionPopup ?

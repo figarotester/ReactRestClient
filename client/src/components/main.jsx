@@ -259,15 +259,24 @@ class Main extends Component {
     responseStatus: '',             //ProxyResponseStatus
     value: '',                      //drop-down
     tabIndex: 0,
-    collection: ''
   };
 
   this.handleSubmit = this.handleSubmit.bind(this);
   this.handleChange = this.handleChange.bind(this);
+  this.handlePopulate = this.handlePopulate.bind(this);
 
   console.log(`IN CTOR: ${this.state.requestBody}`);
 
   }; //end constructor
+
+  handlePopulate = (method, url, body, headerKey, headerValue) => {
+    this.setState({
+      value: method,
+      url: url,
+      requestBody: body,
+      requestHeaders: `${headerKey}: ${headerValue}`
+    })
+  }
 
   handleSelect = (event) => {
     this.setState({value: event.target.value});
@@ -280,13 +289,22 @@ class Main extends Component {
   handleSubmit = async (event) => {
     event.preventDefault();
     console.log(`UI: proxybody: ${JSON.stringify(this.state.requestBody)}`); 
+
+    if(this.state.value === "get"){
+      this.state.requestBody = this.state.requestBody
+    }
+    else{
+      this.state.requestBody = JSON.parse(this.state.requestBody)
+    }
+
     // The inner object which will be user by the server
     const proxybody = {
       proxyurl: this.state.url, 
       proxyrequestheaders: JSON.parse(JSON.stringify(this.state.requestHeaders)), 
-      proxyrequestbody: JSON.parse(this.state.requestBody),
+      proxyrequestbody: this.state.requestBody,
       proxymethod: this.state.value
     }
+
     console.log(`UI: body: ${JSON.stringify(proxybody)}`);
     axios(
       {
@@ -402,7 +420,7 @@ render(){
           </StyledResponseHeader>
         </ResponseFrame>
       </StyledResponseWrapper>
-      <Collections/>
+      <Collections onSubmit={this.handlePopulate}/>
   </StyledRequestWrapper>
     );
   }
