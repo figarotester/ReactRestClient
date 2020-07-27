@@ -293,8 +293,8 @@ class Main extends Component {
     event.preventDefault();
     console.log(`UI: proxybody: ${JSON.stringify(this.state.requestBody)}`); 
 
-    if(this.state.value === "get"){
-      this.state.requestBody = this.state.requestBody
+    if(this.state.selectedMethod === "GET"){
+      this.state.requestBody = null
     }
     else{
       this.state.requestBody = JSON.parse(this.state.requestBody)

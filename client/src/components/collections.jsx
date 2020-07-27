@@ -7,8 +7,6 @@ import classNames from "classnames";
 import Files from "react-files";
 //import exportFromJSON from 'export-from-json';
 
-var data = require('./data/data.json');
-
 const CollectionsFrame = styled.section`
   position: absolute;
   width: 530px;
@@ -194,7 +192,16 @@ class Collections extends Component {
     this.state.urlPopulate = currentUrl
     this.state.bodyPopulate = currentBody
     this.state.headerKeyPopulate = currentHeaderKey
-    this.state.headerValuePopulate = currentHeaderValue
+    this.state.headerValuePopulate = currentHeaderValue 
+
+    /*this.setState({
+      methodPopulate: currentMethod,
+      urlPopulate: currentUrl,
+      bodyPopulate: currentBody,
+      headerKeyPopulate: currentHeaderKey,
+      headerValuePopulate: currentHeaderValue
+
+    })*/
 
     
 
@@ -298,7 +305,6 @@ class Collections extends Component {
           </StyledImportHeader>
           <StyledChooseFile>
           <Files
-            className="files-dropzone"
             onChange={file => {
               this.fileReader.readAsText(file[0]);
             }}
@@ -310,7 +316,7 @@ class Collections extends Component {
             minFileSize={0}
             clickable
         >
-          Drop files here or click to upload
+          <button>Upload</button>
         </Files>
           </StyledChooseFile>
           <StyledExportFile>
