@@ -4,6 +4,7 @@ import CollectionPopup from "./collection_popup";
 import RequestPopup from "./request_popup";
 import {Collapse} from "react-collapse";
 import classNames from "classnames";
+import Files from "react-files";
 //import exportFromJSON from 'export-from-json';
 
 var data = require('./data/data.json');
@@ -79,23 +80,58 @@ class Collections extends Component {
       showCollectionPopup: false,
       showRequestPopup: false,
       activeIndex: null,
-      selectedFile: null,
       methodPopulate: '',
       urlPopulate: '',
       bodyPopulate: '',
       headerKeyPopulate: '',
-      headerValuePopulate: ''
+      headerValuePopulate: '',
+      jsonFile: {},
+      requests: [],
+      allMethod: [],
+      allUrl: [],
+      allHeaderKey: [],
+      allHeaderValue: [],
+      allBody: [],
+      fileCollections: [],
+    };
+
+    this.fileReader = new FileReader();
+    this.fileReader.onload = event => {
+      this.setState({ jsonFile: JSON.parse(event.target.result), fileCollections: this.state.fileCollections.concat(this.state.collectionName)
+      }, () => {
+        console.log(this.state.jsonFile.info.name);
+
+        let all = this.state.jsonFile;
+        let items = all["item"];
+    for (const element of items) {
+      this.state.requests.push(element["name"]);
+      this.state.allMethod.push(element["request"].method)
+      this.state.allUrl.push(element["request"].url.raw)
+
+      for (const headerElement of element["request"].header){
+        this.state.allHeaderKey.push(headerElement.key)
+        this.state.allHeaderValue.push(headerElement.value)
+      }
+    }
+
+    for (const get of this.state.allMethod){
+      if (get === "GET"){
+        this.state.allBody.push("")
+      }
+      else{
+        for(const element of items){
+          if(element["request"].body){
+            this.state.allBody.push(element["request"].body.raw)
+          }
+        }
+      }
+    }       
+      });
     };
 
     this.toggleClass = this.toggleClass.bind(this);
     this.submitPopulate = this.submitPopulate.bind(this);
 
-  }
-
-  onFileChange = (event) => {
-    this.setState({ 
-      selectedFile: event.target.files[0],
-    });
   }
 
   toggleClass = (index) => {
@@ -177,57 +213,24 @@ class Collections extends Component {
   } 
 
   render() {
-    let requests = []
-    let allMethod = []
-    let allBody = []
-    let allHeaderKey = []
-    let allHeaderValue = []
-    let allUrl = []
     let file;
     let content;
-    let all = JSON.parse(JSON.stringify(data));
-    let items = all["item"];
     const { activeIndex } = this.state;
-    if (this.state.selectedFile) {
-    for (const element of items) {
-      requests.push(element["name"]);
-      allMethod.push(element["request"].method)
-      allUrl.push(element["request"].url.raw)
-
-      for (const headerElement of element["request"].header){
-        allHeaderKey.push(headerElement.key)
-        allHeaderValue.push(headerElement.value)
-      }
-    }
-
-    for (const get of allMethod){
-      if (get === "GET"){
-        allBody.push("")
-      }
-      else{
-        for(const element of items){
-          if(element["request"].body){
-            allBody.push(element["request"].body.raw)
-          }
-        }
-      }
-    }
-
-    const listRequest = requests.map((requests, index) =>
+    const listRequest = this.state.requests.map((requests, index) =>
       <li>
         <button
         id={index} 
-         onClick={currentRequest => this.submitPopulate(allMethod[index], allUrl[index], allBody[index], allHeaderKey[index], allHeaderValue[index])}> 
+         onClick={currentRequest => this.submitPopulate(this.state.allMethod[index], this.state.allUrl[index], this.state.allBody[index], this.state.allHeaderKey[index], this.state.allHeaderValue[index])}> 
           {requests}
         </button>
       </li>
       )
     
-      file = this.state.collections.map((index) => {
+      file = this.state.fileCollections.map((index) => {
         return (
           <li key={index}>
             <div>
-              <p>{this.state.selectedFile.name}</p>
+              <p>{this.state.jsonFile.info.name}</p>
               <Collapse isOpened={activeIndex === index}>
                 <div
                   className={classNames("alert alert-info msg", {
@@ -249,39 +252,35 @@ class Collections extends Component {
             </div>
           </li>
         );
-      });
-    }
-  
-    else{
-      const { activeIndex } = this.state;
-      content = this.state.collections.map((index) => {
-        return (
-          <li key={index}>
-            <div>
-              <p>{index}</p>
-              <Collapse isOpened={activeIndex === index}>
-                <div
-                  className={classNames("alert alert-info msg", {
-                    show: activeIndex === index,
-                    hide: activeIndex !== index
-                  })}
-                >
-                  <button>
-                    {this.state.requestName}
-                  </button>
-                </div>
-              </Collapse>
-              <button
-                className="btn btn-primary btn-xs"
-                onClick={this.toggleClass.bind(this, index)}
+      }); 
+    content = this.state.collections.map((index) => {
+      return (
+        <li key={index}>
+          <div>
+            <p>{index}</p>
+            <Collapse isOpened={activeIndex === index}>
+              <div
+                className={classNames("alert alert-info msg", {
+                  show: activeIndex === index,
+                  hide: activeIndex !== index
+                })}
               >
-                {this.moreLess(index)}
-              </button>
-            </div>
-          </li>
-        );
-      });
-    }
+                <button>
+                  {this.state.requestName}
+                </button>
+              </div>
+            </Collapse>
+            <button
+              className="btn btn-primary btn-xs"
+              onClick={this.toggleClass.bind(this, index)}
+            >
+              {this.moreLess(index)}
+            </button>
+          </div>
+        </li>
+      );
+    });
+
     return (
       <StyledCollectionsWrapper>
         <StyledCollections>
@@ -298,8 +297,21 @@ class Collections extends Component {
             Import from JSON
           </StyledImportHeader>
           <StyledChooseFile>
-            <input type="file" accept=".json" onChange={this.onFileChange}/>
-            <button onClick={this.handleAddCollection}>Upload</button>
+          <Files
+            className="files-dropzone"
+            onChange={file => {
+              this.fileReader.readAsText(file[0]);
+            }}
+            onError={err => console.log(err)}
+            accepts={[".json"]}
+            multiple
+            maxFiles={3}
+            maxFileSize={10000000}
+            minFileSize={0}
+            clickable
+        >
+          Drop files here or click to upload
+        </Files>
           </StyledChooseFile>
           <StyledExportFile>
           {/* <label>
