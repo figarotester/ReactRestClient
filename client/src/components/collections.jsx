@@ -5,7 +5,6 @@ import RequestPopup from "./request_popup";
 import {Collapse} from "react-collapse";
 import classNames from "classnames";
 import Files from "react-files";
-//import exportFromJSON from 'export-from-json';
 
 const CollectionsFrame = styled.section`
   position: absolute;
@@ -333,11 +332,6 @@ class Collections extends Component {
             </Files>
           </StyledChooseFile>
           <StyledExportFile>
-            {/* <label>
-                file name:
-                <input id="fileName" placeholder="file name"/>
-            </label>
-            <button onClick="download('json')">download JSON file</button> */}
           </StyledExportFile>
           <StyledListCollection>
             <ul>{file}</ul>
