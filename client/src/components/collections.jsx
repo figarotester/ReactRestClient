@@ -107,6 +107,7 @@ class Collections extends Component {
       collections: [],
       showCollectionPopup: false,
       showRequestPopup: false,
+      activeUploadIndex: null,
       activeIndex: null,
       methodPopulate: '',
       urlPopulate: '',
@@ -167,8 +168,30 @@ class Collections extends Component {
     })
   }
 
+  toggleUploadClass = (index) => {
+    this.setState({
+      activeUploadIndex: this.state.activeUploadIndex === index ? null : index
+    })
+  }
+
   moreLess = (index) => {
     if (this.state.activeIndex === index) {
+      return (
+        <span>
+          <i className="angle up"/> Hide requests
+        </span>
+      );
+    } else {
+      return (
+        <span>
+          <i className="angle down"/> Show requests
+        </span>
+      );
+    }
+  }
+
+  moreLessUpload = (index) => {
+    if (this.state.activeUploadIndex === index) {
       return (
         <span>
           <i className="angle up"/> Hide requests
@@ -235,6 +258,7 @@ class Collections extends Component {
   render() {
     let file;
     let content;
+    const { activeUploadIndex } = this.state;
     const { activeIndex } = this.state;
     const listRequest = this.state.requests.map((requests, index) =>
       <li>
@@ -250,11 +274,11 @@ class Collections extends Component {
           <li key={index}>
             <div>
               <p style={{color: 'white'}}>{this.state.jsonFile.info.name}</p>
-              <Collapse isOpened={activeIndex === index}>
+              <Collapse isOpened={activeUploadIndex === index}>
                 <div
                   className={classNames("alert alert-info msg", {
-                    show: activeIndex === index,
-                    hide: activeIndex !== index
+                    show: activeUploadIndex === index,
+                    hide: activeUploadIndex !== index
                   })}
                 >
                   <ul>
@@ -264,9 +288,9 @@ class Collections extends Component {
               </Collapse>
               <button
                 className="btn btn-primary btn-xs"
-                onClick={this.toggleClass.bind(this, index)}
+                onClick={this.toggleUploadClass.bind(this, index)}
               >
-                {this.moreLess(index)}
+                {this.moreLessUpload(index)}
               </button>
             </div>
           </li>
