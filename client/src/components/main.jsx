@@ -6,7 +6,7 @@ import Collections from './collections';
 import '../react-tabs.css';
 import Dropdown from 'react-dropdown';
 import '../react-dropdown.css';
-
+import '../spectrum.css';
 const axios = require('axios');
 
 const StyledStatusBar = styled.div`
@@ -124,8 +124,8 @@ const RequestFrame = styled.section`
   height: 370px;
   left: -30px;
   top: 20px;
-  background: #EEEAEA;
-`;
+  background: rgba(196, 196, 196, 0.2)
+  `;
 
 const StyledResponse = styled.h1`
   position: absolute;
@@ -148,7 +148,7 @@ const ResponseFrame = styled.section`
   left: -30px;
   top: 100px;
 
-  background: #EEEAEA;
+  background: rgba(196, 196, 196, 0.2)
 `;
 
 const StyledResponseWrapper = styled.section`

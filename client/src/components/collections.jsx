@@ -14,7 +14,7 @@ const CollectionsFrame = styled.section`
   left: 700px;
   top: -327px;
 
-  background: #EEEAEA;
+  background: rgba(196, 196, 196, 0.2)
 `;
 
 const StyledCollectionsWrapper = styled.section`
