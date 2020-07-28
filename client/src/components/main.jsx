@@ -6,7 +6,9 @@ import Collections from './collections';
 import '../react-tabs.css';
 import Dropdown from 'react-dropdown';
 import '../react-dropdown.css';
-import '../spectrum.css';
+import spectrum from '../static/spectrumbg.png';
+import '../spectrum.css'
+
 const axios = require('axios');
 
 const StyledStatusBar = styled.div`
@@ -30,6 +32,8 @@ const StyledRequest = styled.h1`
   font-weight: 500;
   font-size: 20px;
   line-height: 21px;
+
+  color: white;
 `;
 
 const StyledMethod = styled.h1`
@@ -43,7 +47,7 @@ const StyledMethod = styled.h1`
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  color: #000000;
+  color: white;
 `;
 
 const StyledUrl = styled.h1`
@@ -57,7 +61,8 @@ const StyledUrl = styled.h1`
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
-  color: #000000;
+
+  color: white;
 `;
 
 const StyledUrlBar = styled.div`
@@ -74,7 +79,8 @@ const StyledRequestBodyLabel = styled.h1`
   font-style: normal;
   font-size: 18px;
   line-height: 16px;
-  color: #000000;
+
+  color: white;
 `;
 
 const StyledResponseBodyLabel = styled.h1`
@@ -85,7 +91,8 @@ const StyledResponseBodyLabel = styled.h1`
   font-style: normal;
   font-size: 18px;
   line-height: 16px;
-  color: #000000;
+
+  color: white;
 `;
 
 const StyledRequestHeaderLabel = styled.h1`
@@ -96,7 +103,8 @@ const StyledRequestHeaderLabel = styled.h1`
   font-style: normal;
   font-size: 18px;
   line-height: 16px;
-  color: #000000;
+
+  color: white;
 `;
 
 const StyledResponseHeaderLabel = styled.h1`
@@ -107,7 +115,8 @@ const StyledResponseHeaderLabel = styled.h1`
   font-style: normal;
   font-size: 18px;
   line-height: 16px;
-  color: #000000;
+
+  color: white;
 `;
 
 const StyledRequestWrapper = styled.section`
@@ -115,7 +124,7 @@ const StyledRequestWrapper = styled.section`
   width: 90px;
   height: 21px;
   left: 56px;
-  top: 16px;
+  top: 190px;
 `;
 
 const RequestFrame = styled.section`
@@ -124,8 +133,8 @@ const RequestFrame = styled.section`
   height: 370px;
   left: -30px;
   top: 20px;
-  background: rgba(196, 196, 196, 0.2)
-  `;
+  background: rgba(0, 0, 0, 0.50)
+`;
 
 const StyledResponse = styled.h1`
   position: absolute;
@@ -139,6 +148,8 @@ const StyledResponse = styled.h1`
   font-weight: 500;
   font-size: 20px;
   line-height: 21px;
+
+  color: white;
 `;
 
 const ResponseFrame = styled.section`
@@ -148,7 +159,7 @@ const ResponseFrame = styled.section`
   left: -30px;
   top: 100px;
 
-  background: rgba(196, 196, 196, 0.2)
+  background: rgba(0, 0, 0, 0.50)
 `;
 
 const StyledResponseWrapper = styled.section`
@@ -172,7 +183,7 @@ const StyledStatus = styled.h1`
   font-size: 14px;
   line-height: 16px;
 
-  color: #000000;
+  color: white;
 `;
 
 const StyledResponseBody = styled.section`
@@ -181,8 +192,6 @@ const StyledResponseBody = styled.section`
   height: 130px;
   left: 30px;
   top: 70px;
-
-  background: white
 `;
 
 const StyledResponseHeader = styled.section`
@@ -191,8 +200,6 @@ const StyledResponseHeader = styled.section`
   height: 130px;
   left: 30px;
   top: 225px;
-
-  background: white
 `;
 
 const StyledRequestBody = styled.section`
@@ -201,8 +208,6 @@ const StyledRequestBody = styled.section`
   height: 130px;
   left: 30px;
   top: 80px;
-
-  background: white
 `;
 
 const StyledRequestHeader = styled.section`
@@ -211,8 +216,6 @@ const StyledRequestHeader = styled.section`
   height: 130px;
   left: 30px;
   top: 235px;
-
-  background: white
 `;
 
 const StyledMethodSelector = styled.div`
@@ -228,7 +231,7 @@ const StyledTabs = styled.section`
   height: 25px;
   left: 50px;
   top: -15px;
-  `;
+`;
 
 const StyledAddButton = styled.button`
   position: absolute;
@@ -247,10 +250,21 @@ const StyledAddButton = styled.button`
   `}
 `;
 
+const StyledSpectrumBackground = styled.section`
+  position: fixed;
+  left: 250px;
+  top: 5px;
+`;
+
+const StyledConnecticutBackground = styled.section`
+  position: fixed;
+  top: 100px;
+`;
+
 class Main extends Component {
   constructor(props){
     super(props);
-    // State vars
+
     this.state = {
     methods: ["GET", "POST", "PUT", "DELETE"],
     selectedMethod: '',
@@ -277,17 +291,17 @@ class Main extends Component {
       url: url,
       requestBody: body,
       requestHeaders: `${headerKey}: ${headerValue}`
-    })
-  }
+    });
+  };
 
   handleSelectMethod = (option) => {
     const selectedMethod = option.value
     this.setState({selectedMethod});
-  }
+  };
 
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value})
-  }
+  };
 
   handleSubmit = async (event) => {
     event.preventDefault();
@@ -325,6 +339,7 @@ class Main extends Component {
         responseHeaders: JSON.stringify(response.headers, null, 2),
         responseBody: JSON.stringify(response.data, null, 2),
         responseStatus: JSON.stringify(response.status, null, 2),
+        requestBody: JSON.stringify(proxybody.proxyrequestbody, null, 2)
       })
     }).catch(error => {
       console.log(error)
@@ -334,16 +349,19 @@ class Main extends Component {
 render(){
   const {selectedMethod, methods} = this.state;
   return(
-  <StyledRequestWrapper>
+
+    <StyledRequestWrapper>
+      <StyledSpectrumBackground>
+        <img src={spectrum} alt="" />
+      </StyledSpectrumBackground>
       <StyledRequest>
         Request
       </StyledRequest>
       <StyledTabs>
         <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({tabIndex})}>
           <TabList>
-            <Tab>{this.state.url}</Tab>
+            <Tab>Tab1</Tab>
           </TabList>
-          <TabPanel></TabPanel>
         </Tabs>
       </StyledTabs>
       <StyledAddButton>+</StyledAddButton>
@@ -354,48 +372,48 @@ render(){
         <StyledUrl>
           URL
         </StyledUrl>
-    <form onSubmit={this.handleSubmit}>
-        <StyledUrlBar>
-          <input
-            name="url"
-            value={this.state.url}
-            onChange={this.handleChange}
-            type="text"
-            style={{width: "330px"}}/>
-        <SendButton type="submit" value="Submit"/>
-        </StyledUrlBar>
-        <StyledMethodSelector>
-          <Dropdown 
-            options={methods}
-            onChange={this.handleSelectMethod}
-            value={selectedMethod}
-            placeholder="Select"/>
-        </StyledMethodSelector>
-        <StyledRequestBodyLabel>
-          Body
-        </StyledRequestBodyLabel>
-        <StyledRequestBody>
-          <textarea 
-            name="requestBody"
-            value={this.state.requestBody}
-            onChange={this.handleChange}
-            type="text"
-            rows={5}
-            cols={78}/>
-        </StyledRequestBody>
-        <StyledRequestHeaderLabel>
-          Headers
-        </StyledRequestHeaderLabel>
-        <StyledRequestHeader>
-          <textarea
-            name="requestHeaders"
-            value={this.state.requestHeaders}
-            onChange={this.handleChange}
-            type="text"
-            rows={5}
-            cols={78}/>
-        </StyledRequestHeader>
-    </form>
+        <form onSubmit={this.handleSubmit}>
+          <StyledUrlBar>
+            <input
+              name="url"
+              value={this.state.url}
+              onChange={this.handleChange}
+              type="text"
+              style={{width: "330px"}}/>
+            <SendButton type="submit" value="Submit"/>
+          </StyledUrlBar>
+          <StyledMethodSelector>
+            <Dropdown 
+              options={methods}
+              onChange={this.handleSelectMethod}
+              value={selectedMethod}
+              placeholder="Select"/>
+          </StyledMethodSelector>
+          <StyledRequestBodyLabel>
+            Body
+          </StyledRequestBodyLabel>
+          <StyledRequestBody>
+            <textarea 
+              name="requestBody"
+              value={this.state.requestBody}
+              onChange={this.handleChange}
+              type="text"
+              rows={5}
+              cols={78}/>
+          </StyledRequestBody>
+          <StyledRequestHeaderLabel>
+            Headers
+          </StyledRequestHeaderLabel>
+          <StyledRequestHeader>
+            <textarea
+              name="requestHeaders"
+              value={this.state.requestHeaders}
+              onChange={this.handleChange}
+              type="text"
+              rows={5}
+              cols={78}/>
+          </StyledRequestHeader>
+        </form>
       </RequestFrame>
       <StyledResponseWrapper>
         <StyledResponse>
@@ -423,8 +441,7 @@ render(){
         </ResponseFrame>
       </StyledResponseWrapper>
       <Collections onSubmit={this.handlePopulate}/>
-      
-  </StyledRequestWrapper>
+    </StyledRequestWrapper>
     );
   }
 }

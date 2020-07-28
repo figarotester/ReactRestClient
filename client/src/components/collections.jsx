@@ -14,7 +14,7 @@ const CollectionsFrame = styled.section`
   left: 700px;
   top: -327px;
 
-  background: rgba(196, 196, 196, 0.2)
+  background: rgba(0, 0, 0, 0.50)
 `;
 
 const StyledCollectionsWrapper = styled.section`
@@ -38,7 +38,7 @@ const StyledCollections = styled.h1`
   font-size: 18px;
   line-height: 21px;
 
-  color: #000000;
+  color: white;
 `;
 
 const StyledRequestButton = styled.button`
@@ -52,6 +52,26 @@ const StyledImportHeader = styled.h6`
   position: absolute;
   left: 315px;
   top: 5px;
+  font-family: Roboto;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+
+  color: white;
+`;
+
+const StyledAddCollectionHeader = styled.h6`
+  position: absolute;
+  left: 20px;
+  top: 5px;
+  font-family: Roboto;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+
+  color: white;
 `;
 
 const StyledChooseFile = styled.section`
@@ -60,11 +80,22 @@ const StyledChooseFile = styled.section`
   top: 35px;
 `;
 
+const StyledCollectionButton = styled.button`
+  position: absolute;
+  left: 170px;
+  top: 5px;
+`;
+
+const StyledListCollection = styled.section`
+  position: absolute;
+  left: -5px;
+  top: 35px;
+`;
+
 const StyledExportFile = styled.section`
   position: absolute;
   left: 300px;
   top: 100px;
-
 `;
 
 class Collections extends Component {
@@ -95,41 +126,40 @@ class Collections extends Component {
 
     this.fileReader = new FileReader();
     this.fileReader.onload = event => {
-      this.setState({ jsonFile: JSON.parse(event.target.result), fileCollections: this.state.fileCollections.concat(this.state.collectionName)
-      }, () => {
-        console.log(this.state.jsonFile.info.name);
+      this.setState(
+        { jsonFile: JSON.parse(event.target.result), 
+          fileCollections: this.state.fileCollections.concat(this.state.collectionName)
+        }, () =>
+        {
+          let all = this.state.jsonFile;
+          let items = all["item"];
 
-        let all = this.state.jsonFile;
-        let items = all["item"];
-    for (const element of items) {
-      this.state.requests.push(element["name"]);
-      this.state.allMethod.push(element["request"].method)
-      this.state.allUrl.push(element["request"].url.raw)
-
-      for (const headerElement of element["request"].header){
-        this.state.allHeaderKey.push(headerElement.key)
-        this.state.allHeaderValue.push(headerElement.value)
-      }
-    }
-
-    for (const get of this.state.allMethod){
-      if (get === "GET"){
-        this.state.allBody.push("")
-      }
-      else{
-        for(const element of items){
-          if(element["request"].body){
-            this.state.allBody.push(element["request"].body.raw)
+          for (const element of items) {
+            this.state.requests.push(element["name"]);
+            this.state.allMethod.push(element["request"].method)
+            this.state.allUrl.push(element["request"].url.raw)
+            for (const headerElement of element["request"].header){
+              this.state.allHeaderKey.push(headerElement.key)
+              this.state.allHeaderValue.push(headerElement.value)
+            }
           }
-        }
-      }
-    }       
-      });
-    };
+          for (const get of this.state.allMethod){
+            if (get === "GET"){
+              this.state.allBody.push("")
+            }
+            else{
+              for(const element of items){
+                if(element["request"].body){
+                  this.state.allBody.push(element["request"].body.raw)
+                }
+              }
+            }
+          }       
+        });
+      };
 
     this.toggleClass = this.toggleClass.bind(this);
     this.submitPopulate = this.submitPopulate.bind(this);
-
   }
 
   toggleClass = (index) => {
@@ -177,37 +207,21 @@ class Collections extends Component {
   handleAddCollection = () => {
     this.setState({
       collections: this.state.collections.concat(this.state.collectionName)
-    })
+    });
   }
 
   handleAddRequest = () => {
     this.setState({
       requestName: this.state.requestName
-    })
+    });
   }
 
-  submitPopulate = ( currentMethod, currentUrl, currentBody, currentHeaderKey, currentHeaderValue) => {
-
+  submitPopulate = (currentMethod, currentUrl, currentBody, currentHeaderKey, currentHeaderValue) => {
     this.state.methodPopulate = currentMethod
     this.state.urlPopulate = currentUrl
     this.state.bodyPopulate = currentBody
     this.state.headerKeyPopulate = currentHeaderKey
     this.state.headerValuePopulate = currentHeaderValue 
-
-    /*this.setState({
-      methodPopulate: currentMethod,
-      urlPopulate: currentUrl,
-      bodyPopulate: currentBody,
-      headerKeyPopulate: currentHeaderKey,
-      headerValuePopulate: currentHeaderValue
-
-    })*/
-
-    
-
-    /*this.setState({
-      requestPopulate: currentRequest
-    })*/
 
     const {methodPopulate} = this.state;
     const {urlPopulate} = this.state;
@@ -232,12 +246,11 @@ class Collections extends Component {
         </button>
       </li>
       )
-    
       file = this.state.fileCollections.map((index) => {
         return (
           <li key={index}>
             <div>
-              <p>{this.state.jsonFile.info.name}</p>
+              <p style={{color: 'white'}}>{this.state.jsonFile.info.name}</p>
               <Collapse isOpened={activeIndex === index}>
                 <div
                   className={classNames("alert alert-info msg", {
@@ -260,33 +273,33 @@ class Collections extends Component {
           </li>
         );
       }); 
-    content = this.state.collections.map((index) => {
-      return (
-        <li key={index}>
-          <div>
-            <p>{index}</p>
-            <Collapse isOpened={activeIndex === index}>
-              <div
-                className={classNames("alert alert-info msg", {
-                  show: activeIndex === index,
-                  hide: activeIndex !== index
-                })}
+      content = this.state.collections.map((index) => {
+        return (
+          <li key={index}>
+            <div>
+              <p style={{color: 'white'}}>{index}</p>
+              <Collapse isOpened={activeIndex === index}>
+                <div
+                  className={classNames("alert alert-info msg", {
+                    show: activeIndex === index,
+                    hide: activeIndex !== index
+                  })}
+                >
+                  <button>
+                    {this.state.requestName}
+                  </button>
+                </div>
+              </Collapse>
+              <button
+                className="btn btn-primary btn-xs"
+                onClick={this.toggleClass.bind(this, index)}
               >
-                <button>
-                  {this.state.requestName}
-                </button>
-              </div>
-            </Collapse>
-            <button
-              className="btn btn-primary btn-xs"
-              onClick={this.toggleClass.bind(this, index)}
-            >
-              {this.moreLess(index)}
-            </button>
-          </div>
-        </li>
-      );
-    });
+                {this.moreLess(index)}
+              </button>
+            </div>
+          </li>
+        );
+      });
 
     return (
       <StyledCollectionsWrapper>
@@ -294,51 +307,53 @@ class Collections extends Component {
           Collections
         </StyledCollections>
         <CollectionsFrame>
-        {/* <pre id="dataJSON">
-          what
-        </pre> */}
-          <button onClick={this.toggleCollectionPopup.bind(this)}>
+          <StyledAddCollectionHeader>
             Add New Collection
-          </button>
+          </StyledAddCollectionHeader>
+          <StyledCollectionButton onClick={this.toggleCollectionPopup.bind(this)}>
+              +
+          </StyledCollectionButton>
           <StyledImportHeader>
             Import from JSON
           </StyledImportHeader>
           <StyledChooseFile>
-          <Files
-            onChange={file => {
-              this.fileReader.readAsText(file[0]);
-            }}
-            onError={err => console.log(err)}
-            accepts={[".json"]}
-            multiple
-            maxFiles={3}
-            maxFileSize={10000000}
-            minFileSize={0}
-            clickable
-        >
-          <button>Upload</button>
-        </Files>
+            <Files
+              onChange={file => {
+                this.fileReader.readAsText(file[0]);
+              }}
+              onError={err => console.log(err)}
+              accepts={[".json"]}
+              multiple
+              maxFiles={3}
+              maxFileSize={10000000}
+              minFileSize={0}
+              clickable
+              >
+              <button>Upload</button>
+            </Files>
           </StyledChooseFile>
           <StyledExportFile>
-          {/* <label>
-              file name:
-              <input id="fileName" placeholder="file name"/>
-          </label>
-          <button onClick="download('json')">download JSON file</button> */}
+            {/* <label>
+                file name:
+                <input id="fileName" placeholder="file name"/>
+            </label>
+            <button onClick="download('json')">download JSON file</button> */}
           </StyledExportFile>
-          <ul>{file}</ul>
-          <ul>{content}</ul>
-          {this.state.showCollectionPopup ?
-            <CollectionPopup
-              text='New Collection'
-              closePopup={this.toggleCollectionPopup.bind(this)}
-              saveCollection={this.handleAddCollection}
-              collectionText={this.handleChangeCollection}/>
-            : null
-          }
+          <StyledListCollection>
+            <ul>{file}</ul>
+            <ul>{content}</ul>
+          </StyledListCollection>
           <StyledRequestButton onClick={this.toggleRequestPopup.bind(this)}>
             Save to collections
           </StyledRequestButton>
+          {this.state.showCollectionPopup ?
+          <CollectionPopup
+            text='New Collection'
+            closePopup={this.toggleCollectionPopup.bind(this)}
+            saveCollection={this.handleAddCollection}
+            collectionText={this.handleChangeCollection}/>
+            : null
+          }
           {this.state.showRequestPopup ?
             <RequestPopup
               text='Save Request As..'
@@ -347,7 +362,7 @@ class Collections extends Component {
               requestText={this.handleChangeRequest}
               collectionFolder={this.state.collectionName}
               collectionItem={this.state.collections}/>
-            : null
+              : null
           }
         </CollectionsFrame>
       </StyledCollectionsWrapper>
