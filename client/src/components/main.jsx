@@ -47,6 +47,7 @@ const StyledMethod = styled.h1`
   font-weight: bold;
   font-size: 14px;
   line-height: 16px;
+
   color: white;
 `;
 
@@ -133,7 +134,7 @@ const RequestFrame = styled.section`
   height: 370px;
   left: -30px;
   top: 20px;
-  background: rgba(0, 0, 0, 0.50)
+  background: rgba(0, 0, 0, 0.50);
 `;
 
 const StyledResponse = styled.h1`
@@ -159,7 +160,7 @@ const ResponseFrame = styled.section`
   left: -30px;
   top: 100px;
 
-  background: rgba(0, 0, 0, 0.50)
+  background: rgba(0, 0, 0, 0.50);
 `;
 
 const StyledResponseWrapper = styled.section`
