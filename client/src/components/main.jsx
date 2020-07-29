@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import styled, {css} from 'styled-components';
 import SendButton from './send_button';
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
+import {Tab, Tabs, TabList} from 'react-tabs';
 import Collections from './collections';
 import '../react-tabs.css';
 import Dropdown from 'react-dropdown';
@@ -256,11 +256,6 @@ const StyledSpectrumBackground = styled.section`
   top: 5px;
 `;
 
-const StyledConnecticutBackground = styled.section`
-  position: fixed;
-  top: 100px;
-`;
-
 class Main extends Component {
   constructor(props){
     super(props);
@@ -275,7 +270,7 @@ class Main extends Component {
     responseHeaders: '',            //ProxyResponseHeaders
     responseStatus: '',             //ProxyResponseStatus
     tabIndex: 0,
-  };
+    };
 
   this.handleSubmit = this.handleSubmit.bind(this);
   this.handleChange = this.handleChange.bind(this);
@@ -308,7 +303,7 @@ class Main extends Component {
     console.log(`UI: proxybody: ${JSON.stringify(this.state.requestBody)}`); 
 
     if(this.state.selectedMethod === "GET"){
-      this.state.requestBody = null
+      this.state.requestBody = this.state.requestBody
     }
     else{
       this.state.requestBody = JSON.parse(this.state.requestBody)
@@ -349,7 +344,6 @@ class Main extends Component {
 render(){
   const {selectedMethod, methods} = this.state;
   return(
-
     <StyledRequestWrapper>
       <StyledSpectrumBackground>
         <img src={spectrum} alt="" />
