@@ -128,7 +128,7 @@ const StyledRequestWrapper = styled.section`
   top: 190px;
 `;
 
-const RequestFrame = styled.section`
+const StyledRequestFrame = styled.section`
   position: absolute;
   width: 805px;
   height: 370px;
@@ -153,7 +153,7 @@ const StyledResponse = styled.h1`
   color: white;
 `;
 
-const ResponseFrame = styled.section`
+const StyledResponseFrame = styled.section`
   position: absolute;
   width: 805px;
   height: 360px;
@@ -360,7 +360,7 @@ render(){
         </Tabs>
       </StyledTabs>
       <StyledAddButton>+</StyledAddButton>
-      <RequestFrame>
+      <StyledRequestFrame>
         <StyledMethod>
           Method
         </StyledMethod>
@@ -409,12 +409,12 @@ render(){
               cols={78}/>
           </StyledRequestHeader>
         </form>
-      </RequestFrame>
+      </StyledRequestFrame>
       <StyledResponseWrapper>
         <StyledResponse>
           Response
         </StyledResponse>
-        <ResponseFrame>
+        <StyledResponseFrame>
           <StyledStatus>
             Status
           </StyledStatus>
@@ -433,7 +433,7 @@ render(){
           <StyledResponseHeader>
             <textarea rows={5} cols={78} value={this.state.responseHeaders} onChange={this.handleChange}/>
           </StyledResponseHeader>
-        </ResponseFrame>
+        </StyledResponseFrame>
       </StyledResponseWrapper>
       <Collections onSubmit={this.handlePopulate}/>
     </StyledRequestWrapper>

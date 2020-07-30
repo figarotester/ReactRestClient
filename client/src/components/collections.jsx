@@ -6,7 +6,7 @@ import {Collapse} from "react-collapse";
 import classNames from "classnames";
 import Files from "react-files";
 
-const CollectionsFrame = styled.section`
+const StyledCollectionsFrame = styled.section`
   position: absolute;
   width: 530px;
   height: 370px;
@@ -24,7 +24,7 @@ const StyledCollectionsWrapper = styled.section`
   top: 347px;
 `;
 
-const StyledCollections = styled.h1`
+const StyledCollectionsHeader = styled.h1`
   position: absolute;
   width: 90px;
   height: 21px;
@@ -91,12 +91,6 @@ const StyledListCollection = styled.section`
   top: 35px;
 `;
 
-const StyledExportFile = styled.section`
-  position: absolute;
-  left: 300px;
-  top: 100px;
-`;
-
 class Collections extends Component {
   constructor(props) {
     super(props);
@@ -139,6 +133,7 @@ class Collections extends Component {
             this.state.allMethod.push(element["request"].method)
             this.state.allUrl.push(element["request"].url.raw)
             for (const headerElement of element["request"].header){
+              console.log(headerElement.key)
               this.state.allHeaderKey.push(headerElement.key)
               this.state.allHeaderValue.push(headerElement.value)
             }
@@ -158,23 +153,23 @@ class Collections extends Component {
         });
       };
 
-    this.toggleClass = this.toggleClass.bind(this);
-    this.submitPopulate = this.submitPopulate.bind(this);
-  }
+    this.handleToggleRequest = this.handleToggleRequest.bind(this);
+    this.handleSubmitPopulate = this.handleSubmitPopulate.bind(this);
+  };
 
-  toggleClass = (index) => {
+  handleToggleRequest = (index) => {
     this.setState({
       activeIndex: this.state.activeIndex === index ? null : index
     })
   }
 
-  toggleUploadClass = (index) => {
+  handleToggleRequestUpload = (index) => {
     this.setState({
       activeUploadIndex: this.state.activeUploadIndex === index ? null : index
     })
   }
 
-  moreLess = (index) => {
+  handleShowRequest = (index) => {
     if (this.state.activeIndex === index) {
       return (
         <span>
@@ -226,7 +221,7 @@ class Collections extends Component {
     this.setState({requestName: event.target.value})
   }
 
-  handleAddCollection = () => {
+  handleAddCollection = (collections) => {
     this.setState({
       collections: this.state.collections.concat(this.state.collectionName)
     });
@@ -238,7 +233,7 @@ class Collections extends Component {
     });
   }
 
-  submitPopulate = (currentMethod, currentUrl, currentBody, currentHeaderKey, currentHeaderValue) => {
+  handleSubmitPopulate = (currentMethod, currentUrl, currentBody, currentHeaderKey, currentHeaderValue) => {
     this.state.methodPopulate = currentMethod
     this.state.urlPopulate = currentUrl
     this.state.bodyPopulate = currentBody
@@ -264,7 +259,7 @@ class Collections extends Component {
       <li>
         <button
         id={index} 
-         onClick={currentRequest => this.submitPopulate(this.state.allMethod[index], this.state.allUrl[index], this.state.allBody[index], this.state.allHeaderKey[index], this.state.allHeaderValue[index])}> 
+         onClick={currentRequest => this.handleSubmitPopulate(this.state.allMethod[index], this.state.allUrl[index], this.state.allBody[index], this.state.allHeaderKey[index], this.state.allHeaderValue[index])}> 
           {requests}
         </button>
       </li>
@@ -288,7 +283,7 @@ class Collections extends Component {
               </Collapse>
               <button
                 className="btn btn-primary btn-xs"
-                onClick={this.toggleUploadClass.bind(this, index)}
+                onClick={this.handleToggleRequestUpload.bind(this, index)}
               >
                 {this.moreLessUpload(index)}
               </button>
@@ -315,9 +310,9 @@ class Collections extends Component {
               </Collapse>
               <button
                 className="btn btn-primary btn-xs"
-                onClick={this.toggleClass.bind(this, index)}
+                onClick={this.handleToggleRequest.bind(this, index)}
               >
-                {this.moreLess(index)}
+                {this.handleShowRequest(index)}
               </button>
             </div>
           </li>
@@ -326,10 +321,10 @@ class Collections extends Component {
 
     return (
       <StyledCollectionsWrapper>
-        <StyledCollections>
+        <StyledCollectionsHeader>
           Collections
-        </StyledCollections>
-        <CollectionsFrame>
+        </StyledCollectionsHeader>
+        <StyledCollectionsFrame>
           <StyledAddCollectionHeader>
             Add New Collection
           </StyledAddCollectionHeader>
@@ -355,8 +350,6 @@ class Collections extends Component {
               <button>Upload</button>
             </Files>
           </StyledChooseFile>
-          <StyledExportFile>
-          </StyledExportFile>
           <StyledListCollection>
             <ul>{file}</ul>
             <ul>{content}</ul>
@@ -373,16 +366,16 @@ class Collections extends Component {
             : null
           }
           {this.state.showRequestPopup ?
-            <RequestPopup
-              text='Save Request As..'
-              closePopup={this.toggleRequestPopup.bind(this)}
-              saveRequest={this.handleAddRequest}
-              requestText={this.handleChangeRequest}
-              collectionFolder={this.state.collectionName}
-              collectionItem={this.state.collections}/>
-              : null
+          <RequestPopup
+            text='Save Request As..'
+            closePopup={this.toggleRequestPopup.bind(this)}
+            saveRequest={this.handleAddRequest}
+            requestText={this.handleChangeRequest}
+            collectionFolder={this.state.collectionName}
+            collectionItem={this.state.collections}/>
+            : null
           }
-        </CollectionsFrame>
+        </StyledCollectionsFrame>
       </StyledCollectionsWrapper>
     );
   }
