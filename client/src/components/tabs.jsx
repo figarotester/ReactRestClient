@@ -6,13 +6,13 @@ import "../styles.css";
 const StyledDeleteTabButton = styled.button`
   position: absolute;
   left: -75px;
-  top: 170px;
+  top: 150px;
 `;
 
 const StyledAddTabButton = styled.button`
   position: absolute;
   left: -75px;
-  top: 200px;
+  top: 175px;
 `;
 
 class Tabs extends Component {

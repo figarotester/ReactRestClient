@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import styled, {css} from 'styled-components';
 import SendButton from './send_button';
-//import {Tab, Tabs, TabList} from 'react-tabs';
 import Collections from './collections';
 import '../react-tabs.css';
 import Dropdown from 'react-dropdown';
@@ -125,7 +124,7 @@ const StyledMainWrapper = styled.section`
   position: absolute;
   width: 90px;
   height: 21px;
-  left: 56px;
+  left: 40px;
   top: 190px;
 `;
 
@@ -134,7 +133,7 @@ const StyledRequestWrapper = styled.section`
   width: 90px;
   height: 21px;
   left: 0px;
-  top: 50px;
+  top: 25px;
 `;
 
 const StyledRequestFrame = styled.section`
@@ -177,7 +176,7 @@ const StyledResponseWrapper = styled.section`
   width: 90px;
   height: 21px;
   left: 0px;
-  top: 390px;
+  top: 360px;
 `;
 
 const StyledStatus = styled.h1`
@@ -233,12 +232,6 @@ const StyledMethodSelector = styled.div`
   width: 85px;
   left: 5px;
   top: 24px;
-`;
-
-const StyledTabs = styled.section`
-  position: absolute;
-  left: 50px;
-  top: -150px;
 `;
 
 const StyledSpectrumBackground = styled.section`

@@ -8,7 +8,7 @@ import Files from "react-files";
 
 const StyledCollectionsFrame = styled.section`
   position: absolute;
-  width: 530px;
+  width: 500px;
   height: 370px;
   left: 700px;
   top: -327px;
@@ -18,10 +18,8 @@ const StyledCollectionsFrame = styled.section`
 
 const StyledCollectionsWrapper = styled.section`
   position: absolute;
-  width: 90px;
-  height: 21px;
-  left: 105px;
-  top: 395px;
+  left: 100px;
+  top: 371px;
 `;
 
 const StyledCollectionsHeader = styled.h1`
