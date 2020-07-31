@@ -21,7 +21,7 @@ const StyledCollectionsWrapper = styled.section`
   width: 90px;
   height: 21px;
   left: 105px;
-  top: 347px;
+  top: 395px;
 `;
 
 const StyledCollectionsHeader = styled.h1`
@@ -44,7 +44,7 @@ const StyledRequestButton = styled.button`
   position: absolute;
   width: 170px;
   left: -210px;
-  top: 23px;
+  top: 25px;
 `;
 
 const StyledImportHeader = styled.h6`

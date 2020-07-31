@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import styled, {css} from 'styled-components';
 import SendButton from './send_button';
-import {Tab, Tabs, TabList} from 'react-tabs';
+//import {Tab, Tabs, TabList} from 'react-tabs';
 import Collections from './collections';
 import '../react-tabs.css';
 import Dropdown from 'react-dropdown';
 import '../react-dropdown.css';
 import spectrum from '../static/spectrumbg.png';
 import '../spectrum.css'
+import Tabs from './tabs';
 
 const axios = require('axios');
 
@@ -120,12 +121,20 @@ const StyledResponseHeaderLabel = styled.h1`
   color: white;
 `;
 
-const StyledRequestWrapper = styled.section`
+const StyledMainWrapper = styled.section`
   position: absolute;
   width: 90px;
   height: 21px;
   left: 56px;
   top: 190px;
+`;
+
+const StyledRequestWrapper = styled.section`
+  position: absolute;
+  width: 90px;
+  height: 21px;
+  left: 0px;
+  top: 50px;
 `;
 
 const StyledRequestFrame = styled.section`
@@ -168,7 +177,7 @@ const StyledResponseWrapper = styled.section`
   width: 90px;
   height: 21px;
   left: 0px;
-  top: 330px;
+  top: 390px;
 `;
 
 const StyledStatus = styled.h1`
@@ -228,33 +237,14 @@ const StyledMethodSelector = styled.div`
 
 const StyledTabs = styled.section`
   position: absolute;
-  width: 38px;
-  height: 25px;
   left: 50px;
-  top: -15px;
-`;
-
-const StyledAddButton = styled.button`
-  position: absolute;
-  width: 38px;
-  height: 25px;
-  left: 360px;
-  top: -10px;
-  background: transparent;
-  
-  border: 2px solid black;
-  color: black;
- 
-  ${props => props.primary && css`
-    background: black;
-    color: white;
-  `}
+  top: -150px;
 `;
 
 const StyledSpectrumBackground = styled.section`
-  position: fixed;
-  left: 250px;
-  top: 5px;
+  position: absolute;
+  left: 40px;
+  top: -190px;
 `;
 
 class Main extends Component {
@@ -345,21 +335,15 @@ class Main extends Component {
 render(){
   const {selectedMethod, methods} = this.state;
   return(
-    <StyledRequestWrapper>
+    <StyledMainWrapper>
       <StyledSpectrumBackground>
         <img src={spectrum} alt="" />
+        <Tabs/>
       </StyledSpectrumBackground>
+      <StyledRequestWrapper>
       <StyledRequest>
         Request
       </StyledRequest>
-      <StyledTabs>
-        <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({tabIndex})}>
-          <TabList>
-            <Tab>Tab1</Tab>
-          </TabList>
-        </Tabs>
-      </StyledTabs>
-      <StyledAddButton>+</StyledAddButton>
       <StyledRequestFrame>
         <StyledMethod>
           Method
@@ -410,6 +394,8 @@ render(){
           </StyledRequestHeader>
         </form>
       </StyledRequestFrame>
+
+      </StyledRequestWrapper>
       <StyledResponseWrapper>
         <StyledResponse>
           Response
@@ -436,7 +422,7 @@ render(){
         </StyledResponseFrame>
       </StyledResponseWrapper>
       <Collections onSubmit={this.handlePopulate}/>
-    </StyledRequestWrapper>
+    </StyledMainWrapper>
     );
   }
 }

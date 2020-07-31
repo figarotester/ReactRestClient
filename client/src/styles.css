@@ -1,0 +1,32 @@
+.Tabs {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.tab {
+  background: transparent;
+  padding: 5px 15px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #fff;
+  color: #000;
+  border: 1px solid #ddd;
+}
+
+.nav-tabs {
+  margin-top: 10px;
+}
+
+.add-tab-button {
+  background: none;
+  border: none;
+}
+
+.edit-tab-name {
+  background: white;
+  color: #fff;
+}
